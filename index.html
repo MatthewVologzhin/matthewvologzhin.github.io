@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Матвей Вологжин | Физик-теоретик & Geant4-DNA Specialist</title>
+    <title>Матвей Вологжин | Geant4-DNA & Theoretical Physics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -12,9 +12,18 @@
             theme: {
                 extend: {
                     colors: {
-                        space: { 950: '#070913', 900: '#0d1127', 800: '#171d3d', 700: '#232b58' },
-                        cyanGlow: '#00f2fe',
-                        accentBlue: '#4facfe'
+                        g4: {
+                            950: '#050811',
+                            900: '#0a0e23',
+                            800: '#111738',
+                            700: '#1a2250'
+                        },
+                        monty: {
+                            green: '#00FF66',
+                            lime: '#39FF14',
+                            cyan: '#00F0FF',
+                            glow: 'rgba(0, 255, 102, 0.25)'
+                        }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -25,88 +34,115 @@
         }
     </script>
     <style>
-        .glass { background: rgba(13, 17, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .glass-card { background: rgba(23, 29, 61, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .glass-card:hover { border-color: rgba(0, 242, 254, 0.4); box-shadow: 0 0 25px rgba(0, 242, 254, 0.15); }
-        .text-gradient { background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(10, 14, 35, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(0, 255, 102, 0.12); }
+        .glass-card { background: rgba(17, 23, 56, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass-card:hover { border-color: rgba(0, 255, 102, 0.4); box-shadow: 0 0 25px rgba(0, 255, 102, 0.15); }
+        .text-monty-gradient { background: linear-gradient(135deg, #00FF66 0%, #00F0FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Floating Animation for Mascot */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1.5deg); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 5s ease-in-out infinite 2s; }
+
+        /* DNA Track Glow Effects */
+        .g4-glow-green { filter: drop-shadow(0 0 12px rgba(0, 255, 102, 0.4)); }
+        .g4-glow-box { box-shadow: 0 0 20px rgba(0, 255, 102, 0.15); }
     </style>
 </head>
-<body class="bg-space-950 text-slate-200 font-sans antialiased selection:bg-cyan-500 selection:text-space-950">
+<body class="bg-g4-950 text-slate-200 font-sans antialiased selection:bg-monty-green selection:text-g4-950">
 
     <!-- NAVIGATION -->
-    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-800/50 px-4 lg:px-8 py-3 transition-all">
+    <nav class="fixed top-0 w-full z-50 glass border-b border-monty-green/20 px-4 lg:px-8 py-3 transition-all">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" class="font-mono text-lg font-bold tracking-wider text-gradient">M.VOLOGZHIN<span class="text-cyan-400">.phys</span></a>
+            <a href="#" class="font-mono text-lg font-bold tracking-wider text-monty-gradient flex items-center gap-2">
+                <i class="fa-solid fa-dna text-monty-green animate-pulse"></i>
+                <span>M.VOLOGZHIN<span class="text-monty-cyan">.g4dna</span></span>
+            </a>
             <div class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#about" class="hover:text-cyan-400 transition">Обо мне</a>
-                <a href="#experience" class="hover:text-cyan-400 transition">Опыт & Лаборатории</a>
-                <a href="#publications" class="hover:text-cyan-400 transition">Публикации</a>
-                <a href="#conferences" class="hover:text-cyan-400 transition">Конференции</a>
-                <a href="#teaching" class="hover:text-cyan-400 transition">Преподавание</a>
+                <a href="#about" class="hover:text-monty-green transition">Обо мне</a>
+                <a href="#experience" class="hover:text-monty-green transition">Опыт & Лаб</a>
+                <a href="#publications" class="hover:text-monty-green transition">Публикации</a>
+                <a href="#courses" class="hover:text-monty-green transition">Курсы & Stepik</a>
             </div>
-            <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="hidden sm:inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-space-950 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider hover:opacity-90 transition">
+            <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="hidden sm:inline-flex items-center space-x-2 bg-gradient-to-r from-monty-green to-monty-cyan text-g4-950 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider hover:shadow-[0_0_20px_rgba(0,255,102,0.5)] transition">
                 <i class="fa-brands fa-telegram text-base"></i><span>Связаться</span>
             </a>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="relative min-h-screen flex items-center pt-24 pb-12 px-4 lg:px-8 overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-space-950 to-space-950 -z-10"></div>
+    <section class="relative min-h-screen flex items-center pt-28 pb-16 px-4 lg:px-8 overflow-hidden">
+        <!-- Ambient DNA Background Glow -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-monty-green/10 rounded-full blur-[140px] -z-10 pointer-events-none"></div>
+
         <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             <div class="lg:col-span-7 space-y-6">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                    <span>ТГУ / ОИЯИ (Дубна)</span>
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-monty-green/10 border border-monty-green/30 text-monty-green text-xs font-mono">
+                    <span class="w-2 h-2 rounded-full bg-monty-green animate-ping"></span>
+                    <span>Geant4-DNA Research Group · ТГУ / ОИЯИ</span>
                 </div>
+
                 <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
                     Матвей Вологжин <span class="text-sm font-normal text-slate-400 font-mono">(aka Matt)</span>
                 </h1>
-                <p class="text-lg sm:text-xl text-gradient font-semibold">
-                    Физик-теоретик · Специалист по Geant4-DNA · Преподаватель
+                
+                <p class="text-xl text-monty-gradient font-bold tracking-wide">
+                    Физик-теоретик · Geant4-DNA Specialist · Преподаватель
                 </p>
-                <p class="text-slate-400 leading-relaxed max-w-2xl text-sm sm:text-base">
-                    Исследую треки ионизирующих излучений, микродозиметрию и конформационные колебания ДНК. Разрабатываю модели в пакете <strong>Geant4-DNA</strong> и обучаю молодых специалистов физике частиц.
+
+                <p class="text-slate-300 leading-relaxed max-w-2xl text-sm sm:text-base">
+                    Моделирую треки ионизирующих излучений, повреждения ДНК и микродозиметрию тяжелых ионов. Разрабатываю физические модели в пакете <strong>Geant4-DNA</strong> и создаю интерактивное образование по физике частиц.
                 </p>
 
                 <!-- CREDO CAROUSEL/LIST -->
-                <div class="glass-card p-4 rounded-xl border-l-4 border-cyan-400 space-y-2">
-                    <p class="text-xs font-mono text-cyan-400 uppercase tracking-wider">Моё кредо:</p>
+                <div class="glass-card p-4 rounded-xl border-l-4 border-monty-green space-y-2">
+                    <p class="text-xs font-mono text-monty-green uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-quote-left"></i> Моё кредо:
+                    </p>
                     <ul class="text-xs sm:text-sm italic text-slate-300 space-y-1">
-                        <li>• «Дорогу осилит идущий»</li>
-                        <li>• «Ты перепутал небо со звёздами, отражёнными ночью в поверхности пруда»</li>
+                        <li>«Дорогу осилит идущий»</li>
+                        <li>«Ты перепутал небо со звёздами, отражёнными ночью в поверхности пруда»</li>
                     </ul>
                 </div>
 
                 <!-- CONTACT BUTTONS -->
                 <div class="flex flex-wrap gap-3 pt-2">
-                    <a href="mailto:matvey.vologzhin@mail.ru" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:bg-space-800 transition"><i class="fa-solid fa-envelope text-cyan-400"></i> matvey.vologzhin@mail.ru</a>
-                    <a href="https://github.com/matthew_kryze" target="_blank" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:bg-space-800 transition"><i class="fa-brands fa-github text-cyan-400"></i> GitHub</a>
-                    <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:bg-space-800 transition"><i class="fa-brands fa-telegram text-cyan-400"></i> Telegram</a>
+                    <a href="mailto:matvey.vologzhin@mail.ru" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-solid fa-envelope text-monty-green"></i> matvey.vologzhin@mail.ru</a>
+                    <a href="https://github.com/matthew_kryze" target="_blank" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-brands fa-github text-monty-green"></i> GitHub</a>
+                    <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-brands fa-telegram text-monty-green"></i> Telegram</a>
                 </div>
             </div>
 
-            <!-- PROFILE STATS / AVATAR CARD -->
-            <div class="lg:col-span-5">
-                <div class="glass-card p-6 rounded-2xl space-y-6 text-center relative overflow-hidden">
-                    <div class="w-36 h-36 mx-auto rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-1">
-                        <div class="w-full h-full bg-space-900 rounded-full flex items-center justify-center overflow-hidden">
-                            <img src="avatar.jpg" alt="Матвей Вологжин" class="w-full h-full object-cover">
+            <!-- PROFILE & MASCOT HERO CARD -->
+            <div class="lg:col-span-5 relative">
+                <!-- Mascot Floating Overlay -->
+                <div class="absolute -top-12 -right-6 w-32 sm:w-40 z-20 animate-float g4-glow-green hidden sm:block">
+                    <img src="monty-wave.png" alt="Монти приветствует!" class="w-full h-auto" onerror="this.style.display='none'">
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl space-y-6 text-center relative overflow-hidden border border-monty-green/20 g4-glow-box">
+                    <div class="w-36 h-36 mx-auto rounded-full bg-gradient-to-tr from-monty-green via-monty-cyan to-blue-600 p-1">
+                        <div class="w-full h-full bg-g4-900 rounded-full flex items-center justify-center overflow-hidden">
+                            <img src="avatar.jpg" alt="Матвей Вологжин" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Matt+Vologzhin&background=0b1026&color=00FF66'">
                         </div>
                     </div>
                     <div>
                         <h3 class="text-xl font-bold text-white">Томск / Дубна, РФ</h3>
-                        <p class="text-xs font-mono text-slate-400">+7-902-569-66-20</p>
+                        <p class="text-xs font-mono text-monty-cyan">+7-902-569-66-20</p>
                     </div>
+
                     <div class="grid grid-cols-2 gap-3 text-left">
-                        <div class="bg-space-950/60 p-3 rounded-lg border border-slate-800">
-                            <span class="block text-xl font-bold text-cyan-400 font-mono">Geant4</span>
-                            <span class="text-xs text-slate-400">Моделирование</span>
+                        <div class="bg-g4-950/80 p-3 rounded-xl border border-slate-800">
+                            <span class="block text-xl font-bold text-monty-green font-mono">Geant4</span>
+                            <span class="text-xs text-slate-400">Simulation Engine</span>
                         </div>
-                        <div class="bg-space-950/60 p-3 rounded-lg border border-slate-800">
-                            <span class="block text-xl font-bold text-cyan-400 font-mono">Stepik</span>
-                            <span class="text-xs text-slate-400">Автор курса</span>
+                        <div class="bg-g4-950/80 p-3 rounded-lg border border-slate-800">
+                            <span class="block text-xl font-bold text-monty-cyan font-mono">Stepik</span>
+                            <span class="text-xs text-slate-400">Курс по физике</span>
                         </div>
                     </div>
                 </div>
@@ -115,164 +151,268 @@
         </div>
     </section>
 
-    <!-- STACK & GOALS -->
-    <section id="about" class="py-16 px-4 lg:px-8 border-t border-slate-800/40">
-        <div class="max-w-7xl mx-auto space-y-12">
-            <div class="text-center space-y-2">
-                <h2 class="text-3xl font-bold text-white">Навыки и Технологический стек</h2>
-                <p class="text-slate-400 text-sm max-w-xl mx-auto">Инструментарий теоретических исследований, симуляций и педагогики</p>
+    <!-- STACK & MASCOT SECTION -->
+    <section id="about" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 relative">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <div class="lg:col-span-4 text-center lg:text-left space-y-4">
+                <img src="monty-think.png" alt="Монти размышляет" class="w-48 sm:w-56 mx-auto lg:mx-0 animate-float-delayed g4-glow-green" onerror="this.style.display='none'">
+                <h2 class="text-2xl font-bold text-white">Технологии & Моделирование</h2>
+                <p class="text-xs text-slate-400">«Монти помогает собирать точные модели физических процессов и разрывов ДНК»</p>
             </div>
 
-            <!-- TECH TAGS -->
-            <div class="glass p-6 rounded-2xl">
-                <h3 class="text-sm font-mono text-cyan-400 uppercase tracking-wider mb-4"><i class="fa-solid fa-code"></i> TeX-Стек & Инструменты</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">Geant4 / Geant4-DNA</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">Python (DBSCAN, K-Means)</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">C++</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">LaTeX</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">Maple</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">MatLab</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">Comsol Multiphysics</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">Blender</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">Linux (Bash)</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">Git</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-space-800 border border-slate-700 text-xs font-mono text-white">Prompt-Engineering</span>
+            <div class="lg:col-span-8 space-y-6">
+                <div class="glass p-6 rounded-2xl border-l-4 border-monty-green">
+                    <h3 class="text-sm font-mono text-monty-green uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-atom"></i> Инструментарий физика-теоретика
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-monty-green/30 text-xs font-mono text-white flex items-center gap-1.5"><i class="fa-solid fa-[#00FF66] fa-shield-halved"></i> Geant4 / Geant4-DNA</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">Python (DBSCAN, K-Means)</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">C++</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">LaTeX</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">Maple</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">MatLab</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">Comsol Multiphysics</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">Blender 3D</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">Linux (Bash)</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">Prompt-Engineering</span>
+                    </div>
                 </div>
             </div>
+
         </div>
     </section>
 
-    <!-- EXPERIENCE & INTERNSHIPS -->
-    <section id="experience" class="py-16 px-4 lg:px-8 border-t border-slate-800/40 bg-space-900/30">
+    <!-- EXPERIENCE & LABS -->
+    <section id="experience" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/40">
         <div class="max-w-7xl mx-auto space-y-12">
-            <div>
-                <h2 class="text-3xl font-bold text-white">Опыт работы и Стажировки</h2>
-                <p class="text-slate-400 text-sm">Исследовательская деятельность в ТГУ и ОИЯИ</p>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Опыт работы и Лаборатории</h2>
+                    <p class="text-slate-400 text-sm">Исследования треков ионизирующих частиц и моделей ДНК</p>
+                </div>
+                <img src="monty-code.png" alt="Монти за компьютером" class="w-24 sm:w-28 animate-float g4-glow-green hidden md:block" onerror="this.style.display='none'">
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- EXP 1 -->
-                <div class="glass-card p-6 rounded-2xl space-y-3">
+                <div class="glass-card p-6 rounded-2xl space-y-3 border-l-2 border-monty-green">
                     <div class="flex justify-between items-start">
-                        <span class="text-xs font-mono text-cyan-400">Сен. 2024 — Наст. время</span>
-                        <span class="text-xs bg-cyan-500/10 text-cyan-300 px-2 py-0.5 rounded">ТГУ · Томск</span>
+                        <span class="text-xs font-mono text-monty-green">Сен. 2024 — Наст. время</span>
+                        <span class="text-xs bg-monty-green/10 text-monty-green px-2 py-0.5 rounded">ТГУ · Томск</span>
                     </div>
                     <h3 class="text-lg font-bold text-white">Лаборатория анализа данных физики высоких энергий</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">Валидация электромагнитных физических листов Geant4-DNA (Range, Stopping Power, Radial dose). Моделирование химических реакций радиолиза воды.</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Валидация физических листов Geant4-DNA (Range, Stopping Power, Radial dose). Публикация в Medical Physics и моделирование радиолиза воды.</p>
                 </div>
 
-                <!-- EXP 2 -->
-                <div class="glass-card p-6 rounded-2xl space-y-3">
+                <div class="glass-card p-6 rounded-2xl space-y-3 border-l-2 border-monty-cyan">
                     <div class="flex justify-between items-start">
-                        <span class="text-xs font-mono text-cyan-400">Сен. 2023 — Наст. время</span>
-                        <span class="text-xs bg-cyan-500/10 text-cyan-300 px-2 py-0.5 rounded">ТГУ · Томск</span>
+                        <span class="text-xs font-mono text-monty-cyan">Сен. 2023 — Наст. время</span>
+                        <span class="text-xs bg-monty-cyan/10 text-monty-cyan px-2 py-0.5 rounded">ТГУ · Томск</span>
                     </div>
                     <h3 class="text-lg font-bold text-white">Кафедра теоретической физики</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">Исследование конформационных возмущений модели Муто молекулы ДНК. Доказательство существования «открытого состояния» вейвлет-анализом в Maple.</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Исследование конформационных возмущений в модели Муто молекулы ДНК. Подтверждение «открытого состояния» вейвлет-анализом в Maple.</p>
                 </div>
 
-                <!-- STAGE JINR START -->
-                <div class="glass-card p-6 rounded-2xl space-y-3 border-l-2 border-cyan-400">
+                <div class="glass-card p-6 rounded-2xl space-y-3">
                     <div class="flex justify-between items-start">
-                        <span class="text-xs font-mono text-cyan-400">Авг. 2025 — Сен. 2025</span>
+                        <span class="text-xs font-mono text-monty-green">2025 — 2026 (START & INTEREST)</span>
                         <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">ОИЯИ · Дубна</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Программа JINR START (Летняя сессия)</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">Валидация радиального распределения дозы и ЛПЭ тяжелых ионов в Geant4 11.3. Применение K-Means и DBSCAN для анализа разрывов ДНК.</p>
+                    <h3 class="text-lg font-bold text-white">Объединенный институт ядерных исследований</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">Валидация ионизационных кластеров (ICSD) и тяжелых ионов в Geant4 11.3. Применение DBSCAN/K-Means для анализа повреждений ДНК.</p>
                 </div>
 
-                <!-- STAGE JINR INTEREST -->
-                <div class="glass-card p-6 rounded-2xl space-y-3 border-l-2 border-cyan-400">
+                <div class="glass-card p-6 rounded-2xl space-y-3">
                     <div class="flex justify-between items-start">
-                        <span class="text-xs font-mono text-cyan-400">2025 — 2026 (Wave 13 & 14)</span>
-                        <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">ОИЯИ · Дубна</span>
+                        <span class="text-xs font-mono text-slate-400">2021 — 2027</span>
+                        <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Бакалавриат & Магистратура</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Программа JINR INTEREST</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">Валидация ионизационных кластеров (ICSD), визуализация структуры трека (core vs. penumbra) и подготовка среды валидации для Medical Physics.</p>
+                    <h3 class="text-lg font-bold text-white">Физический факультет ТГУ</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">Исследования радиационных эффектов тяжелых ионов (He, Li, C, Ne), ионизации Радда и микродозиметрии.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PUBLICATIONS & CONFERENCES -->
-    <section id="publications" class="py-16 px-4 lg:px-8 border-t border-slate-800/40">
+    <!-- PUBLICATIONS -->
+    <section id="publications" class="py-16 px-4 lg:px-8 border-t border-slate-800/60">
         <div class="max-w-7xl mx-auto space-y-12">
-            <div>
-                <h2 class="text-3xl font-bold text-white">Публикации и Конференции</h2>
-                <p class="text-slate-400 text-sm">Научные статьи и выступления на российских и международных форумах</p>
+            <div class="flex items-center gap-6">
+                <img src="monty-present.png" alt="Монти у голограммы" class="w-24 sm:w-32 animate-float g4-glow-green hidden sm:block" onerror="this.style.display='none'">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Публикации и Конференции</h2>
+                    <p class="text-slate-400 text-sm">Научные работы в журналах и выступления (Дубна, МГУ, Севастополь)</p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- PUBLICATIONS -->
-                <div class="space-y-4">
-                    <h3 class="text-lg font-mono text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-book-open"></i> Статьи</h3>
-                    
-                    <div class="glass p-5 rounded-xl space-y-2">
-                        <span class="text-xs font-mono text-slate-400">Апр. 2025 · Известия Вузов. Физика</span>
-                        <h4 class="text-base font-bold text-white">Исследование конформационных возмущений в модели Муто ДНК</h4>
-                        <p class="text-xs text-slate-400">Применение потенциалов Тоды и Леннард-Джонса с непрерывным вейвлет-преобразованием.</p>
-                    </div>
-
-                    <div class="glass p-5 rounded-xl space-y-2">
-                        <span class="text-xs font-mono text-slate-400">2026 (В печати) · Moscow University Physics Bulletin</span>
-                        <h4 class="text-base font-bold text-white">Recent developments on ion transport in Geant4</h4>
-                        <p class="text-xs text-slate-400">Оптимизация модели ионизации Радда в Geant4-DNA с 2x ускорением симуляции.</p>
-                    </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass p-6 rounded-2xl space-y-3">
+                    <span class="text-xs font-mono text-monty-green">Апр. 2025 · Известия Вузов. Физика</span>
+                    <h3 class="text-base font-bold text-white">Исследование конформационных возмущений в модели Муто ДНК</h3>
+                    <p class="text-xs text-slate-400">Вейвлет-анализ открытых состояний ДНК с потенциалами Тоды и Леннард-Джонса.</p>
                 </div>
 
-                <!-- CONFERENCES -->
-                <div id="conferences" class="space-y-4">
-                    <h3 class="text-lg font-mono text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-users"></i> Конференции</h3>
-                    
-                    <ul class="space-y-3">
-                        <li class="glass p-4 rounded-xl text-xs space-y-1">
-                            <span class="font-mono text-cyan-400">Июн. 2026 · MMCP’26 (Дубна)</span>
-                            <p class="font-semibold text-white">Математическое моделирование и компьютерная физика</p>
-                            <p class="text-slate-400">Доклад по геометриям макромолекул в Geant4-DNA в ОИЯИ.</p>
-                        </li>
-                        <li class="glass p-4 rounded-xl text-xs space-y-1">
-                            <span class="font-mono text-cyan-400">Авг. 2025 · LomCon’25 (МГУ, Москва)</span>
-                            <p class="font-semibold text-white">22-я Ломоносовская конференция по физике элементарных частиц</p>
-                        </li>
-                        <li class="glass p-4 rounded-xl text-xs space-y-1">
-                            <span class="font-mono text-cyan-400">Окт. 2024 · AYSS’24 (Дубна)</span>
-                            <p class="font-semibold text-white">XXVIII Конференция молодых ученых и специалистов ОИЯИ</p>
-                        </li>
-                    </ul>
+                <div class="glass p-6 rounded-2xl space-y-3">
+                    <span class="text-xs font-mono text-monty-cyan">2026 (В печати) · Moscow University Physics Bulletin</span>
+                    <h3 class="text-base font-bold text-white">Recent developments on ion transport in Geant4</h3>
+                    <p class="text-xs text-slate-400">Двукратное ускорение симуляции ионизации Радда в подпакете Geant4-DNA.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- TEACHING -->
-    <section id="teaching" class="py-16 px-4 lg:px-8 border-t border-slate-800/40 bg-space-900/20">
-        <div class="max-w-7xl mx-auto space-y-8">
-            <div class="text-center space-y-2">
-                <h2 class="text-3xl font-bold text-white">Преподавание и Просвещение</h2>
-                <p class="text-slate-400 text-sm">Онлайн-курсы и работа с одаренными школьниками</p>
+    <!-- EXPANDABLE COURSES ARCHITECTURE SECTION -->
+    <section id="courses" class="py-20 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/60 relative">
+        <div class="max-w-7xl mx-auto space-y-12">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                <div class="space-y-2">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-monty-green/10 text-monty-green text-xs font-mono border border-monty-green/30">
+                        <i class="fa-solid fa-graduation-cap"></i> Образовательная платформа
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Онлайн-курсы & Обучение</h2>
+                    <p class="text-slate-400 text-sm max-w-xl">Авторские курсы по физике частиц, моделированию и олимпиадной подготовке</p>
+                </div>
+                
+                <img src="monty-maestro.png" alt="Монти Дирижер" class="w-32 sm:w-40 animate-float g4-glow-green" onerror="this.style.display='none'">
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                <div class="glass-card p-6 rounded-2xl space-y-3 text-center">
-                    <div class="w-12 h-12 mx-auto bg-cyan-500/10 text-cyan-400 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <h3 class="text-lg font-bold text-white">Курс «Введение в физику частиц»</h3>
-                    <p class="text-xs text-slate-300">Авторский интерактивный курс на платформе Stepik с заданиями по Стандартной модели.</p>
+            <!-- COURSE CATALOG GRID (Easily Expandable!) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- COURSE CARD 1: ACTIVE STEPIK COURSE -->
+                <div class="glass-card rounded-2xl overflow-hidden border border-monty-green/40 flex flex-col justify-between relative group g4-glow-box">
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-full bg-monty-green/20 text-monty-green font-mono text-[10px] uppercase font-bold tracking-wider">
+                                <i class="fa-solid fa-circle text-[8px] animate-pulse"></i> Доступен сейчас
+                            </span>
+                            <span class="text-xs text-slate-400 font-mono"><i class="fa-solid fa-star text-amber-400"></i> Stepik</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white group-hover:text-monty-green transition">Введение в физику частиц</h3>
+                        
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Фундаментальный интерактивный курс по Стандартной модели, субатомным частицам и методам их детектирования с практическим решением задач.
+                        </p>
+
+                        <div class="flex flex-wrap gap-1.5 pt-2">
+                            <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-400">Стандартная модель</span>
+                            <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-400">Кварки & Бозоны</span>
+                            <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-400">Онлайн</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 pt-0">
+                        <a href="https://stepik.org/course/247168/syllabus?search=9109292673" target="_blank" class="w-full py-3 rounded-xl bg-gradient-to-r from-monty-green to-monty-cyan text-g4-950 font-bold text-xs uppercase font-mono tracking-wider flex items-center justify-center gap-2 hover:opacity-90 transition">
+                            <span>Пройти курс на Stepik</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="glass-card p-6 rounded-2xl space-y-3 text-center">
-                    <div class="w-12 h-12 mx-auto bg-cyan-500/10 text-cyan-400 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-award"></i></div>
-                    <h3 class="text-lg font-bold text-white">Тренер олимпиад по физике</h3>
-                    <p class="text-xs text-slate-300">Интенсивная подготовка школьников к ВсОШ по теоретической механике и термодинамике.</p>
+
+                <!-- COURSE CARD 2: FUTURE GEANT4 COURSE (UPCOMING ARCHITECTURE) -->
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 opacity-90 flex flex-col justify-between">
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-400 font-mono text-[10px] uppercase font-bold tracking-wider">
+                                В разработке
+                            </span>
+                            <span class="text-xs text-slate-500 font-mono">2026</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white">Geant4-DNA: Моделирование треков</h3>
+                        
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Практическое руководство по симуляции микродозиметрии, Монте-Карло переносу тяжелых ионов и расчетам разрывов ДНК.
+                        </p>
+
+                        <div class="flex flex-wrap gap-1.5 pt-2">
+                            <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-500">Geant4</span>
+                            <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-500">C++ / Python</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 pt-0">
+                        <button disabled class="w-full py-3 rounded-xl bg-slate-800 text-slate-500 font-mono text-xs font-bold uppercase tracking-wider cursor-not-allowed">
+                            Скоро анонс
+                        </button>
+                    </div>
                 </div>
+
+                <!-- COURSE CARD 3: OLYMPIAD COACHING -->
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between">
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-400 font-mono text-[10px] uppercase font-bold tracking-wider">
+                                Интенсивы
+                            </span>
+                            <span class="text-xs text-slate-400 font-mono">ВсОШ</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white">Олимпиадная физика</h3>
+                        
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Подготовка одаренных школьников к региональным и заключительным этапам ВсОШ по теоретической механике и термодинамике.
+                        </p>
+
+                        <div class="flex flex-wrap gap-1.5 pt-2">
+                            <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-400">Теоретическая механика</span>
+                            <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-400">Термодинамика</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 pt-0">
+                        <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="w-full py-3 rounded-xl glass text-monty-cyan font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:border-monty-cyan transition">
+                            <span>Записаться / Узнать подробнее</span>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="py-8 px-4 border-t border-slate-800 text-center text-xs text-slate-500 space-y-2">
-        <p>© 2026 Матвей Вологжин (Matt). Разработано для GitHub Pages.</p>
-        <p class="font-mono text-slate-600">Geant4-DNA · Theoretical Physics · Tomsk State University</p>
+        <p>© 2026 Матвей Вологжин (Matt) & Маскот Монти 🧬</p>
+        <p class="font-mono text-slate-600">Geant4-DNA Research · Tomsk State University · JINR Dubna</p>
     </footer>
+
+    <!-- INTERACTIVE FLOATING MONTY WIDGET (Bottom Right) -->
+    <div class="fixed bottom-6 right-6 z-50 flex items-end gap-3 pointer-events-none">
+        <!-- Speech Bubble -->
+        <div id="monty-bubble" class="glass p-3 rounded-2xl rounded-br-none text-xs text-slate-200 max-w-xs shadow-2xl border border-monty-green/40 opacity-0 transition-all duration-300 pointer-events-auto">
+            <p id="monty-text" class="font-mono text-[11px] text-monty-green">Привет! Я Монти! Жми на меня, если хочешь услышать факт о Geant4-DNA или физике частиц! 🧬</p>
+        </div>
+        
+        <!-- Mascot Button -->
+        <button onclick="talkMonty()" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-g4-900 border-2 border-monty-green p-1 shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:scale-110 transition cursor-pointer pointer-events-auto animate-float">
+            <img src="monty-coffee.png" alt="Спросить Монти" class="w-full h-full object-contain" onerror="this.src='https://ui-avatars.com/api/?name=M&background=00FF66&color=050811'">
+        </button>
+    </div>
+
+    <script>
+        const monytQuotes = [
+            "Знаешь ли ты? Geant4-DNA может моделировать физические процессы на нанометровом масштабе ДНК!",
+            "«Дорогу осилит идущий» — главное кредо Матвея!",
+            "У нас на Stepik есть отличный курс «Введение в физику частиц». Заходи поучиться!",
+            "Тяжелые ионы (He, Li, C, Ne) производят наиболее плотные ионизационные треки!",
+            "Я Монти! Мои жабры сделаны из двойной спирали ДНК 🧬"
+        ];
+        
+        let quoteIndex = 0;
+        function talkMonty() {
+            const bubble = document.getElementById('monty-bubble');
+            const text = document.getElementById('monty-text');
+            text.innerText = monytQuotes[quoteIndex];
+            quoteIndex = (quoteIndex + 1) % monytQuotes.length;
+            bubble.classList.remove('opacity-0');
+            setTimeout(() => {
+                bubble.classList.add('opacity-0');
+            }, 6000);
+        }
+    </script>
 
 </body>
 </html>
