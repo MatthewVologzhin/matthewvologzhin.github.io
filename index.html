@@ -389,22 +389,26 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- PPTX Card 1 -->
+                <!-- Презентация 1 -->
                 <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between">
                     <div class="space-y-2">
                         <span class="px-2 py-0.5 rounded bg-monty-green/20 text-monty-green font-mono text-[10px]">Geant4-DNA</span>
                         <h3 class="text-base font-bold text-white">Оптимизация ионизации Радда</h3>
-                        <p class="text-xs text-slate-400">Доклад на LomCon'25 (МГУ). Анимация треков и двухкратное ускорение симуляций.</p>
+                        <p class="text-xs text-slate-400">Доклад на LomCon'25 (МГУ). Анимация треков и ускорение симуляций.</p>
                     </div>
                     <div class="flex gap-2 pt-2">
-                        <!-- TODO: PLACEHOLDER assets/presentations/lomcon2025.pptx -->
-                        <a href="assets/presentations/lomcon2025.pptx" download class="w-full py-2 rounded-xl bg-g4-800 hover:bg-monty-green hover:text-g4-950 font-mono text-xs font-bold text-slate-200 transition text-center">
-                            <i class="fa-solid fa-download"></i> Скачать PPTX
+                        <!-- Кнопка 1: Просмотр на сайте -->
+                        <button onclick="openPresentationModal('https://github.com/MatthewVologzhin/matthewvologzhin.github.io/releases/download/v1.0/Vologzhin.-.Geant4-DNA.pptx', 'Оптимизация ионизации Радда')" class="w-1/2 py-2 rounded-xl bg-monty-green text-g4-950 font-mono text-xs font-bold transition hover:bg-monty-lime flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-eye"></i> Смотреть
+                        </button>
+                        <!-- Кнопка 2: Скачать файл из Релиза -->
+                        <a href="https://github.com/MatthewVologzhin/matthewvologzhin.github.io/releases/download/v1.0/Vologzhin.-.Geant4-DNA.pptx" download class="w-1/2 py-2 rounded-xl bg-g4-800 hover:bg-slate-700 font-mono text-xs font-bold text-slate-200 transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-download"></i> PPTX
                         </a>
                     </div>
                 </div>
-
-                <!-- PPTX Card 2 -->
+            
+                <!-- Презентация 2 -->
                 <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between">
                     <div class="space-y-2">
                         <span class="px-2 py-0.5 rounded bg-monty-cyan/20 text-monty-cyan font-mono text-[10px]">ДНК Модель</span>
@@ -412,24 +416,28 @@
                         <p class="text-xs text-slate-400">Презентация по модели Муто с анимациями солитонов.</p>
                     </div>
                     <div class="flex gap-2 pt-2">
-                        <!-- TODO: PLACEHOLDER assets/presentations/dna-solitons.pptx -->
-                        <a href="assets/presentations/dna-solitons.pptx" download class="w-full py-2 rounded-xl bg-g4-800 hover:bg-monty-cyan hover:text-g4-950 font-mono text-xs font-bold text-slate-200 transition text-center">
-                            <i class="fa-solid fa-download"></i> Скачать PPTX
+                        <button onclick="openPresentationModal('https://github.com/MatthewVologzhin/matthewvologzhin.github.io/releases/download/v1.0/Vologzhin.-.Geant4.pptx', 'Вейвлет-анализ ДНК')" class="w-1/2 py-2 rounded-xl bg-monty-cyan text-g4-950 font-mono text-xs font-bold transition hover:opacity-90 flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-eye"></i> Смотреть
+                        </button>
+                        <a href="https://github.com/MatthewVologzhin/matthewvologzhin.github.io/releases/download/v1.0/Vologzhin.-.Geant4.pptx" download class="w-1/2 py-2 rounded-xl bg-g4-800 hover:bg-slate-700 font-mono text-xs font-bold text-slate-200 transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-download"></i> PPTX
                         </a>
                     </div>
                 </div>
-
-                <!-- PPTX Card 3 -->
+            
+                <!-- Презентация 3 -->
                 <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between">
                     <div class="space-y-2">
                         <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px]">ОИЯИ Дубна</span>
-                        <h3 class="text-base font-bold text-white">Валидация ионизационных кластеров (ICSD)</h3>
+                        <h3 class="text-base font-bold text-white">Валидация кластеров ионизации (ICSD)</h3>
                         <p class="text-xs text-slate-400">Слайды с программы INTEREST Wave 13/14.</p>
                     </div>
                     <div class="flex gap-2 pt-2">
-                        <!-- TODO: PLACEHOLDER assets/presentations/jinr-icsd.pptx -->
-                        <a href="assets/presentations/jinr-icsd.pptx" download class="w-full py-2 rounded-xl bg-g4-800 hover:bg-blue-400 hover:text-g4-950 font-mono text-xs font-bold text-slate-200 transition text-center">
-                            <i class="fa-solid fa-download"></i> Скачать PPTX
+                        <button onclick="openPresentationModal('https://github.com/MatthewVologzhin/matthewvologzhin.github.io/releases/download/v1.0/file3.pptx', 'Валидация ICSD')" class="w-1/2 py-2 rounded-xl bg-blue-400 text-g4-950 font-mono text-xs font-bold transition hover:opacity-90 flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-eye"></i> Смотреть
+                        </button>
+                        <a href="https://github.com/MatthewVologzhin/matthewvologzhin.github.io/releases/download/v1.0/file3.pptx" download class="w-1/2 py-2 rounded-xl bg-g4-800 hover:bg-slate-700 font-mono text-xs font-bold text-slate-200 transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-download"></i> PPTX
                         </a>
                     </div>
                 </div>
@@ -698,6 +706,19 @@
             bubble.classList.remove('opacity-0');
             setTimeout(() => { bubble.classList.add('opacity-0'); }, 6000);
         }
+
+        function openPresentationModal(pptxPublicUrl, title) {
+            document.getElementById('pptx-modal-title').innerText = title;
+            // Используем бесплатный вьюер от Microsoft Office Online
+            const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(pptxPublicUrl)}`;
+            document.getElementById('pptx-iframe').src = viewerUrl;
+            document.getElementById('presentation-modal').classList.remove('hidden');
+        }
+        
+        function closePresentationModal() {
+            document.getElementById('presentation-modal').classList.add('hidden');
+            document.getElementById('pptx-iframe').src = '';
+        }
     </script>
 
     <!-- 7. THREE.JS OPHTHALMIC SIMULATION MODULE (Fixed 2-Way Slider Sync!) -->
@@ -852,5 +873,23 @@
             });
         }
     </script>
+    <!-- ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ОНЛАЙН-ПРОСМОТРА ПРЕЗЕНТАЦИИ -->
+    <div id="presentation-modal" class="fixed inset-0 z-50 bg-g4-950/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-6">
+        <div class="glass p-4 sm:p-6 rounded-3xl max-w-5xl w-full h-[85vh] flex flex-col space-y-4 relative border border-monty-green/40 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="pptx-modal-title" class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-file-powerpoint text-monty-green"></i> Просмотр презентации
+                </h3>
+                <button onclick="closePresentationModal()" class="text-slate-400 hover:text-white text-xl px-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Вьюер от Microsoft Office Online -->
+            <div class="w-full flex-1 rounded-xl overflow-hidden bg-black border border-slate-800 relative">
+                <iframe id="pptx-iframe" src="" class="w-full h-full border-0"></iframe>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
