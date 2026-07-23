@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Матвей Вологжин | Geant4-DNA & Theoretical Physics</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧬</text></svg>">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -12,18 +15,8 @@
             theme: {
                 extend: {
                     colors: {
-                        g4: {
-                            950: '#050811',
-                            900: '#0a0e23',
-                            800: '#111738',
-                            700: '#1a2250'
-                        },
-                        monty: {
-                            green: '#00FF66',
-                            lime: '#39FF14',
-                            cyan: '#00F0FF',
-                            glow: 'rgba(0, 255, 102, 0.25)'
-                        }
+                        g4: { 950: '#050811', 900: '#0a0e23', 800: '#111738', 700: '#1a2250' },
+                        monty: { green: '#00FF66', lime: '#39FF14', cyan: '#00F0FF', glow: 'rgba(0, 255, 102, 0.25)' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -34,12 +27,11 @@
         }
     </script>
     <style>
-        .glass { background: rgba(10, 14, 35, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(0, 255, 102, 0.12); }
-        .glass-card { background: rgba(17, 23, 56, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass { background: rgba(10, 14, 35, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(0, 255, 102, 0.15); }
+        .glass-card { background: rgba(17, 23, 56, 0.65); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .glass-card:hover { border-color: rgba(0, 255, 102, 0.4); box-shadow: 0 0 25px rgba(0, 255, 102, 0.15); }
         .text-monty-gradient { background: linear-gradient(135deg, #00FF66 0%, #00F0FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Floating Animation for Mascot */
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-10px) rotate(1.5deg); }
@@ -47,12 +39,21 @@
         .animate-float { animation: float 4s ease-in-out infinite; }
         .animate-float-delayed { animation: float 5s ease-in-out infinite 2s; }
 
-        /* DNA Track Glow Effects */
         .g4-glow-green { filter: drop-shadow(0 0 12px rgba(0, 255, 102, 0.4)); }
         .g4-glow-box { box-shadow: 0 0 20px rgba(0, 255, 102, 0.15); }
     </style>
+
+    <!-- TODO: Yandex Metrika / Google Analytics placeholder -->
+    <!--
+    <script>
+        // Paste your Analytics script here
+    </script>
+    -->
 </head>
-<body class="bg-g4-950 text-slate-200 font-sans antialiased selection:bg-monty-green selection:text-g4-950">
+<body class="bg-g4-950 text-slate-200 font-sans antialiased selection:bg-monty-green selection:text-g4-950 relative">
+
+    <!-- CANVAS BACKGROUND (PARTICLE TRACKS ANIMATION) -->
+    <canvas id="particle-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
 
     <!-- NAVIGATION -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-monty-green/20 px-4 lg:px-8 py-3 transition-all">
@@ -61,21 +62,32 @@
                 <i class="fa-solid fa-dna text-monty-green animate-pulse"></i>
                 <span>M.VOLOGZHIN<span class="text-monty-cyan">.g4dna</span></span>
             </a>
+            
             <div class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#about" class="hover:text-monty-green transition">Обо мне</a>
-                <a href="#experience" class="hover:text-monty-green transition">Опыт & Лаб</a>
-                <a href="#publications" class="hover:text-monty-green transition">Публикации</a>
-                <a href="#courses" class="hover:text-monty-green transition">Курсы & Stepik</a>
+                <a href="#about" class="hover:text-monty-green transition"><span class="lang-ru">Обо мне</span><span class="lang-en hidden">About</span></a>
+                <a href="#simulator" class="hover:text-monty-green transition"><span class="lang-ru">Симулятор</span><span class="lang-en hidden">Simulator</span></a>
+                <a href="#experience" class="hover:text-monty-green transition"><span class="lang-ru">Опыт</span><span class="lang-en hidden">Experience</span></a>
+                <a href="#publications" class="hover:text-monty-green transition"><span class="lang-ru">Публикации</span><span class="lang-en hidden">Publications</span></a>
+                <a href="#courses" class="hover:text-monty-green transition"><span class="lang-ru">Курсы</span><span class="lang-en hidden">Courses</span></a>
+                <a href="#gallery" class="hover:text-monty-green transition"><span class="lang-ru">Галерея</span><span class="lang-en hidden">Gallery</span></a>
             </div>
-            <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="hidden sm:inline-flex items-center space-x-2 bg-gradient-to-r from-monty-green to-monty-cyan text-g4-950 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider hover:shadow-[0_0_20px_rgba(0,255,102,0.5)] transition">
-                <i class="fa-brands fa-telegram text-base"></i><span>Связаться</span>
-            </a>
+
+            <div class="flex items-center gap-3">
+                <!-- LANGUAGE TOGGLE BUTTON -->
+                <button onclick="toggleLanguage()" class="px-2.5 py-1 rounded-lg border border-monty-green/40 text-monty-green font-mono text-xs font-bold hover:bg-monty-green/10 transition flex items-center gap-1">
+                    <i class="fa-solid fa-globe"></i> <span id="lang-btn-text">EN</span>
+                </button>
+
+                <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="hidden sm:inline-flex items-center space-x-2 bg-gradient-to-r from-monty-green to-monty-cyan text-g4-950 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider hover:shadow-[0_0_20px_rgba(0,255,102,0.5)] transition">
+                    <i class="fa-brands fa-telegram text-base"></i>
+                    <span><span class="lang-ru">Связаться</span><span class="lang-en hidden">Contact</span></span>
+                </a>
+            </div>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="relative min-h-screen flex items-center pt-28 pb-16 px-4 lg:px-8 overflow-hidden">
-        <!-- Ambient DNA Background Glow -->
+    <section class="relative min-h-screen flex items-center pt-28 pb-16 px-4 lg:px-8 overflow-hidden z-10">
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-monty-green/10 rounded-full blur-[140px] -z-10 pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -87,21 +99,24 @@
                 </div>
 
                 <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
-                    Матвей Вологжин <span class="text-sm font-normal text-slate-400 font-mono">(aka Matt)</span>
+                    <span class="lang-ru">Матвей Вологжин</span><span class="lang-en hidden">Matvey Vologzhin</span> 
+                    <span class="text-sm font-normal text-slate-400 font-mono">(aka Matt)</span>
                 </h1>
                 
                 <p class="text-xl text-monty-gradient font-bold tracking-wide">
-                    Физик-теоретик · Geant4-DNA Specialist · Преподаватель
+                    <span class="lang-ru">Физик-теоретик · Geant4-DNA Specialist · Преподаватель</span>
+                    <span class="lang-en hidden">Theoretical Physicist · Geant4-DNA Specialist · Educator</span>
                 </p>
 
                 <p class="text-slate-300 leading-relaxed max-w-2xl text-sm sm:text-base">
-                    Моделирую треки ионизирующих излучений, повреждения ДНК и микродозиметрию тяжелых ионов. Разрабатываю физические модели в пакете <strong>Geant4-DNA</strong> и создаю интерактивное образование по физике частиц.
+                    <span class="lang-ru">Моделирую треки ионизирующих излучений, повреждения ДНК и микродозиметрию тяжелых ионов. Разрабатываю физические модели в пакете <strong>Geant4-DNA</strong> и создаю интерактивное образование по физике частиц.</span>
+                    <span class="lang-en hidden">Simulating ionizing particle tracks, DNA damage, and heavy ion microdosimetry. Developing physical models in <strong>Geant4-DNA</strong> and building interactive education in particle physics.</span>
                 </p>
 
                 <!-- CREDO CAROUSEL/LIST -->
                 <div class="glass-card p-4 rounded-xl border-l-4 border-monty-green space-y-2">
                     <p class="text-xs font-mono text-monty-green uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-quote-left"></i> Моё кредо:
+                        <i class="fa-solid fa-quote-left"></i> <span class="lang-ru">Моё кредо:</span><span class="lang-en hidden">My Credo:</span>
                     </p>
                     <ul class="text-xs sm:text-sm italic text-slate-300 space-y-1">
                         <li>«Дорогу осилит идущий»</li>
@@ -109,8 +124,12 @@
                     </ul>
                 </div>
 
-                <!-- CONTACT BUTTONS -->
+                <!-- CONTACT & CV BUTTONS -->
                 <div class="flex flex-wrap gap-3 pt-2">
+                    <!-- TODO: PLACEHOLDER - Replace '#' with link to your PDF CV file when uploaded -->
+                    <a href="#" target="_blank" onclick="alert('Загрузите файл CV (например, cv.pdf) в репозиторий и укажите ссылку на него!')" class="px-4 py-2.5 rounded-lg bg-monty-green text-g4-950 font-bold text-xs font-mono flex items-center gap-2 hover:bg-monty-lime transition">
+                        <i class="fa-solid fa-file-pdf"></i> <span class="lang-ru">Скачать CV (PDF)</span><span class="lang-en hidden">Download CV (PDF)</span>
+                    </a>
                     <a href="mailto:matvey.vologzhin@mail.ru" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-solid fa-envelope text-monty-green"></i> matvey.vologzhin@mail.ru</a>
                     <a href="https://github.com/matthew_kryze" target="_blank" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-brands fa-github text-monty-green"></i> GitHub</a>
                     <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-brands fa-telegram text-monty-green"></i> Telegram</a>
@@ -119,19 +138,20 @@
 
             <!-- PROFILE & MASCOT HERO CARD -->
             <div class="lg:col-span-5 relative">
-                <!-- Mascot Floating Overlay -->
+                <!-- TODO: PLACEHOLDER - Upload monty-wave.png -->
                 <div class="absolute -top-12 -right-6 w-32 sm:w-40 z-20 animate-float g4-glow-green hidden sm:block">
-                    <img src="monty-wave.png" alt="Монти приветствует!" class="w-full h-auto" onerror="this.style.display='none'">
+                    <img src="monty-wave.png" alt="Монти приветствует!" class="w-full h-auto" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
                 </div>
 
                 <div class="glass-card p-6 rounded-3xl space-y-6 text-center relative overflow-hidden border border-monty-green/20 g4-glow-box">
                     <div class="w-36 h-36 mx-auto rounded-full bg-gradient-to-tr from-monty-green via-monty-cyan to-blue-600 p-1">
                         <div class="w-full h-full bg-g4-900 rounded-full flex items-center justify-center overflow-hidden">
+                            <!-- TODO: PLACEHOLDER - Upload avatar.jpg -->
                             <img src="avatar.jpg" alt="Матвей Вологжин" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Matt+Vologzhin&background=0b1026&color=00FF66'">
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-xl font-bold text-white">Томск / Дубна, РФ</h3>
+                        <h3 class="text-xl font-bold text-white"><span class="lang-ru">Томск / Дубна, РФ</span><span class="lang-en hidden">Tomsk / Dubna, Russia</span></h3>
                         <p class="text-xs font-mono text-monty-cyan">+7-902-569-66-20</p>
                     </div>
 
@@ -142,7 +162,7 @@
                         </div>
                         <div class="bg-g4-950/80 p-3 rounded-lg border border-slate-800">
                             <span class="block text-xl font-bold text-monty-cyan font-mono">Stepik</span>
-                            <span class="text-xs text-slate-400">Курс по физике</span>
+                            <span class="text-xs text-slate-400">Course Author</span>
                         </div>
                     </div>
                 </div>
@@ -151,23 +171,75 @@
         </div>
     </section>
 
+    <!-- INTERACTIVE GEANT4-DNA PARTICLE TRACK SIMULATOR -->
+    <section id="simulator" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/50 z-10 relative">
+        <div class="max-w-7xl mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-monty-green/10 text-monty-green text-xs font-mono border border-monty-green/30">
+                    <i class="fa-solid fa-flask"></i> <span class="lang-ru">Интерактивный эксперимент</span><span class="lang-en hidden">Interactive Experiment</span>
+                </div>
+                <h2 class="text-3xl font-extrabold text-white"><span class="lang-ru">Мини-симулятор треков ионизации</span><span class="lang-en hidden">Ionization Track Mini-Simulator</span></h2>
+                <p class="text-slate-400 text-sm max-w-xl mx-auto"><span class="lang-ru">Выбери тип частицы и посмотри симуляцию взаимодействия с микромасштабом ДНК</span><span class="lang-en hidden">Select a particle type and run a Monte-Carlo simulation on DNA microscale</span></p>
+            </div>
+
+            <div class="glass p-6 sm:p-8 rounded-3xl border border-monty-green/30 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Controls -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono text-monty-green uppercase"><span class="lang-ru">Выберите налетающую частицу:</span><span class="lang-en hidden">Select Incident Particle:</span></label>
+                        <select id="sim-particle" class="w-full bg-g4-950 border border-slate-700 rounded-xl px-4 py-3 text-xs font-mono text-white focus:border-monty-green outline-none">
+                            <option value="proton">Proton (1 MeV) - Редкая ионизация</option>
+                            <option value="alpha" selected>Alpha particle (He, 5 MeV) - Выход ЛПЭ</option>
+                            <option value="ion">Heavy Ion (Ne / C) - Плотный кластерный трек</option>
+                        </select>
+                    </div>
+
+                    <button onclick="runSimulation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-monty-green to-monty-cyan text-g4-950 font-bold text-xs uppercase font-mono tracking-wider flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(0,255,102,0.4)] transition">
+                        <i class="fa-solid fa-play"></i> <span class="lang-ru">Запустить симуляцию Geant4</span><span class="lang-en hidden">Run Geant4 Simulation</span>
+                    </button>
+
+                    <!-- Stats Output -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <div class="bg-g4-950/80 p-3 rounded-xl border border-slate-800 text-center">
+                            <span class="block text-xs font-mono text-slate-400">Single Strand Breaks (SSB)</span>
+                            <span id="sim-ssb" class="text-2xl font-mono font-bold text-monty-cyan">12</span>
+                        </div>
+                        <div class="bg-g4-950/80 p-3 rounded-xl border border-slate-800 text-center">
+                            <span class="block text-xs font-mono text-slate-400">Double Strand Breaks (DSB)</span>
+                            <span id="sim-dsb" class="text-2xl font-mono font-bold text-monty-green">3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation Visual Canvas -->
+                <div class="lg:col-span-7 relative h-64 sm:h-80 bg-g4-950 rounded-2xl border border-slate-800 overflow-hidden flex items-center justify-center">
+                    <canvas id="sim-canvas" class="w-full h-full"></canvas>
+                    <div class="absolute top-3 left-3 px-2.5 py-1 rounded bg-g4-900/80 border border-slate-800 font-mono text-[10px] text-slate-400">
+                        DNA Nanometer Target Scale (10 nm)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- STACK & MASCOT SECTION -->
-    <section id="about" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 relative">
+    <section id="about" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 relative z-10">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div class="lg:col-span-4 text-center lg:text-left space-y-4">
-                <img src="monty-think.png" alt="Монти размышляет" class="w-48 sm:w-56 mx-auto lg:mx-0 animate-float-delayed g4-glow-green" onerror="this.style.display='none'">
-                <h2 class="text-2xl font-bold text-white">Технологии & Моделирование</h2>
+                <!-- TODO: PLACEHOLDER - Upload monty-think.png -->
+                <img src="monty-think.png" alt="Монти размышляет" class="w-48 sm:w-56 mx-auto lg:mx-0 animate-float-delayed g4-glow-green" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
+                <h2 class="text-2xl font-bold text-white"><span class="lang-ru">Технологии & Моделирование</span><span class="lang-en hidden">Technologies & Modeling</span></h2>
                 <p class="text-xs text-slate-400">«Монти помогает собирать точные модели физических процессов и разрывов ДНК»</p>
             </div>
 
             <div class="lg:col-span-8 space-y-6">
                 <div class="glass p-6 rounded-2xl border-l-4 border-monty-green">
                     <h3 class="text-sm font-mono text-monty-green uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-atom"></i> Инструментарий физика-теоретика
+                        <i class="fa-solid fa-atom"></i> <span class="lang-ru">Инструментарий физика-теоретика</span><span class="lang-en hidden">Physicist's Toolkit</span>
                     </h3>
                     <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-monty-green/30 text-xs font-mono text-white flex items-center gap-1.5"><i class="fa-solid fa-[#00FF66] fa-shield-halved"></i> Geant4 / Geant4-DNA</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-monty-green/30 text-xs font-mono text-white flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-monty-green"></i> Geant4 / Geant4-DNA</span>
                         <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">Python (DBSCAN, K-Means)</span>
                         <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">C++</span>
                         <span class="px-3 py-1.5 rounded-lg bg-g4-800 border border-slate-700 text-xs font-mono text-slate-200">LaTeX</span>
@@ -185,14 +257,15 @@
     </section>
 
     <!-- EXPERIENCE & LABS -->
-    <section id="experience" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/40">
+    <section id="experience" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/40 z-10 relative">
         <div class="max-w-7xl mx-auto space-y-12">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div>
-                    <h2 class="text-3xl font-bold text-white">Опыт работы и Лаборатории</h2>
-                    <p class="text-slate-400 text-sm">Исследования треков ионизирующих частиц и моделей ДНК</p>
+                    <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Опыт работы и Лаборатории</span><span class="lang-en hidden">Experience & Laboratories</span></h2>
+                    <p class="text-slate-400 text-sm"><span class="lang-ru">Исследования треков ионизирующих частиц и моделей ДНК</span><span class="lang-en hidden">Research on ionizing particle tracks & DNA modeling</span></p>
                 </div>
-                <img src="monty-code.png" alt="Монти за компьютером" class="w-24 sm:w-28 animate-float g4-glow-green hidden md:block" onerror="this.style.display='none'">
+                <!-- TODO: PLACEHOLDER - Upload monty-code.png -->
+                <img src="monty-code.png" alt="Монти за компьютером" class="w-24 sm:w-28 animate-float g4-glow-green hidden md:block" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -235,26 +308,37 @@
         </div>
     </section>
 
-    <!-- PUBLICATIONS -->
-    <section id="publications" class="py-16 px-4 lg:px-8 border-t border-slate-800/60">
+    <!-- PUBLICATIONS & BIBTEX -->
+    <section id="publications" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 z-10 relative">
         <div class="max-w-7xl mx-auto space-y-12">
             <div class="flex items-center gap-6">
-                <img src="monty-present.png" alt="Монти у голограммы" class="w-24 sm:w-32 animate-float g4-glow-green hidden sm:block" onerror="this.style.display='none'">
+                <!-- TODO: PLACEHOLDER - Upload monty-present.png -->
+                <img src="monty-present.png" alt="Монти у голограммы" class="w-24 sm:w-32 animate-float g4-glow-green hidden sm:block" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
                 <div>
-                    <h2 class="text-3xl font-bold text-white">Публикации и Конференции</h2>
-                    <p class="text-slate-400 text-sm">Научные работы в журналах и выступления (Дубна, МГУ, Севастополь)</p>
+                    <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Публикации и Конференции</span><span class="lang-en hidden">Publications & Conferences</span></h2>
+                    <p class="text-slate-400 text-sm"><span class="lang-ru">Научные работы в журналах и выступления (Дубна, МГУ, Севастополь)</span><span class="lang-en hidden">Research papers and conference talks</span></p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="glass p-6 rounded-2xl space-y-3">
-                    <span class="text-xs font-mono text-monty-green">Апр. 2025 · Известия Вузов. Физика</span>
+                <div class="glass p-6 rounded-2xl space-y-3 relative group">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-mono text-monty-green">Апр. 2025 · Известия Вузов. Физика</span>
+                        <button onclick="copyBibtex('paper1')" class="px-2 py-1 rounded bg-g4-800 hover:bg-monty-green hover:text-g4-950 text-[10px] font-mono text-slate-300 transition">
+                            <i class="fa-solid fa-copy"></i> BibTeX
+                        </button>
+                    </div>
                     <h3 class="text-base font-bold text-white">Исследование конформационных возмущений в модели Муто ДНК</h3>
                     <p class="text-xs text-slate-400">Вейвлет-анализ открытых состояний ДНК с потенциалами Тоды и Леннард-Джонса.</p>
                 </div>
 
-                <div class="glass p-6 rounded-2xl space-y-3">
-                    <span class="text-xs font-mono text-monty-cyan">2026 (В печати) · Moscow University Physics Bulletin</span>
+                <div class="glass p-6 rounded-2xl space-y-3 relative group">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-mono text-monty-cyan">2026 (В печати) · Moscow University Physics Bulletin</span>
+                        <button onclick="copyBibtex('paper2')" class="px-2 py-1 rounded bg-g4-800 hover:bg-monty-cyan hover:text-g4-950 text-[10px] font-mono text-slate-300 transition">
+                            <i class="fa-solid fa-copy"></i> BibTeX
+                        </button>
+                    </div>
                     <h3 class="text-base font-bold text-white">Recent developments on ion transport in Geant4</h3>
                     <p class="text-xs text-slate-400">Двукратное ускорение симуляции ионизации Радда в подпакете Geant4-DNA.</p>
                 </div>
@@ -263,22 +347,23 @@
     </section>
 
     <!-- EXPANDABLE COURSES ARCHITECTURE SECTION -->
-    <section id="courses" class="py-20 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/60 relative">
+    <section id="courses" class="py-20 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/60 relative z-10">
         <div class="max-w-7xl mx-auto space-y-12">
             
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div class="space-y-2">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-monty-green/10 text-monty-green text-xs font-mono border border-monty-green/30">
-                        <i class="fa-solid fa-graduation-cap"></i> Образовательная платформа
+                        <i class="fa-solid fa-graduation-cap"></i> <span class="lang-ru">Образовательная платформа</span><span class="lang-en hidden">Educational Platform</span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Онлайн-курсы & Обучение</h2>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white"><span class="lang-ru">Онлайн-курсы & Обучение</span><span class="lang-en hidden">Online Courses & Teaching</span></h2>
                     <p class="text-slate-400 text-sm max-w-xl">Авторские курсы по физике частиц, моделированию и олимпиадной подготовке</p>
                 </div>
                 
-                <img src="monty-maestro.png" alt="Монти Дирижер" class="w-32 sm:w-40 animate-float g4-glow-green" onerror="this.style.display='none'">
+                <!-- TODO: PLACEHOLDER - Upload monty-maestro.png -->
+                <img src="monty-maestro.png" alt="Монти Дирижер" class="w-32 sm:w-40 animate-float g4-glow-green" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
             </div>
 
-            <!-- COURSE CATALOG GRID (Easily Expandable!) -->
+            <!-- COURSE CATALOG GRID -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- COURSE CARD 1: ACTIVE STEPIK COURSE -->
@@ -300,7 +385,6 @@
                         <div class="flex flex-wrap gap-1.5 pt-2">
                             <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-400">Стандартная модель</span>
                             <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-400">Кварки & Бозоны</span>
-                            <span class="px-2 py-0.5 rounded bg-g4-950 text-[10px] font-mono text-slate-400">Онлайн</span>
                         </div>
                     </div>
 
@@ -311,7 +395,7 @@
                     </div>
                 </div>
 
-                <!-- COURSE CARD 2: FUTURE GEANT4 COURSE (UPCOMING ARCHITECTURE) -->
+                <!-- COURSE CARD 2: FUTURE GEANT4 COURSE -->
                 <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 opacity-90 flex flex-col justify-between">
                     <div class="p-6 space-y-4">
                         <div class="flex justify-between items-center">
@@ -373,26 +457,257 @@
         </div>
     </section>
 
+    <!-- GALLERY SECTION (VOLLEYBALL, CONFERENCES, MEDIAFORUM) -->
+    <section id="gallery" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 z-10 relative">
+        <div class="max-w-7xl mx-auto space-y-8">
+            <div>
+                <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Галерея & Активности</span><span class="lang-en hidden">Gallery & Activities</span></h2>
+                <p class="text-slate-400 text-sm">Конференции, волейбол, лидерские интенсивы и студенческая жизнь</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- TODO: PLACEHOLDER - Replace photo-volleyball.jpg -->
+                <div class="glass-card rounded-2xl overflow-hidden group">
+                    <div class="h-48 bg-g4-800 relative overflow-hidden flex items-center justify-center">
+                        <img src="photo-volleyball.jpg" alt="Волейбол" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=600&q=80'">
+                        <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-g4-950/80 text-[10px] font-mono text-monty-green">Волейбол (2-е место)</span>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-sm font-bold text-white">Университетский Кубок Профкома</h4>
+                        <p class="text-xs text-slate-400">Организатор финалов и призер турнира по волейболу.</p>
+                    </div>
+                </div>
+
+                <!-- TODO: PLACEHOLDER - Replace photo-dubna.jpg -->
+                <div class="glass-card rounded-2xl overflow-hidden group">
+                    <div class="h-48 bg-g4-800 relative overflow-hidden flex items-center justify-center">
+                        <img src="photo-dubna.jpg" alt="Дубна ОИЯИ" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80'">
+                        <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-g4-950/80 text-[10px] font-mono text-monty-cyan">ОИЯИ · Дубна</span>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-sm font-bold text-white">Конференция AYSS & START Session</h4>
+                        <p class="text-xs text-slate-400">Постерные доклады и исследования кластеров ионизации.</p>
+                    </div>
+                </div>
+
+                <!-- TODO: PLACEHOLDER - Replace photo-forum.jpg -->
+                <div class="glass-card rounded-2xl overflow-hidden group">
+                    <div class="h-48 bg-g4-800 relative overflow-hidden flex items-center justify-center">
+                        <img src="photo-forum.jpg" alt="Медиафорум" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80'">
+                        <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-g4-950/80 text-[10px] font-mono text-monty-green">Медиафорум</span>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-sm font-bold text-white">Региональный медиафорум</h4>
+                        <p class="text-xs text-slate-400">Организатор форума и куратор студенческих проектов.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CERTIFICATES WITH POPUP MODAL -->
+    <section id="certificates" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/30 z-10 relative">
+        <div class="max-w-7xl mx-auto space-y-8">
+            <div>
+                <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Сертификаты и Повышение квалификации</span><span class="lang-en hidden">Certificates</span></h2>
+                <p class="text-slate-400 text-sm">Нажми на сертификат, чтобы открыть просмотр</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- TODO: PLACEHOLDER - Replace cert-lhc.jpg in modal -->
+                <div onclick="openCertModal('cert-lhc.jpg', 'Анализ данных LHC (ATLAS)')" class="glass-card p-5 rounded-2xl cursor-pointer hover:border-monty-green transition flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-monty-green/10 text-monty-green flex items-center justify-center text-xl font-mono"><i class="fa-solid fa-certificate"></i></div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Анализ данных LHC</h4>
+                        <p class="text-xs text-slate-400">Детектор ATLAS (28ч)</p>
+                    </div>
+                </div>
+
+                <!-- TODO: PLACEHOLDER - Replace cert-tutor.jpg in modal -->
+                <div onclick="openCertModal('cert-tutor.jpg', 'Цифровой тьютор')" class="glass-card p-5 rounded-2xl cursor-pointer hover:border-monty-cyan transition flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-monty-cyan/10 text-monty-cyan flex items-center justify-center text-xl font-mono"><i class="fa-solid fa-laptop-code"></i></div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Цифровой тьютор</h4>
+                        <p class="text-xs text-slate-400">Онлайн-образование (72ч)</p>
+                    </div>
+                </div>
+
+                <!-- TODO: PLACEHOLDER - Replace cert-workshop.jpg in modal -->
+                <div onclick="openCertModal('cert-workshop.jpg', 'Мастерская образовательных технологий')" class="glass-card p-5 rounded-2xl cursor-pointer hover:border-monty-green transition flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-monty-green/10 text-monty-green flex items-center justify-center text-xl font-mono"><i class="fa-solid fa-chalkboard-user"></i></div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Мастерская обр. технологий</h4>
+                        <p class="text-xs text-slate-400">Современные методы (72ч)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
-    <footer class="py-8 px-4 border-t border-slate-800 text-center text-xs text-slate-500 space-y-2">
+    <footer class="py-8 px-4 border-t border-slate-800 text-center text-xs text-slate-500 space-y-2 z-10 relative">
         <p>© 2026 Матвей Вологжин (Matt) & Маскот Монти 🧬</p>
         <p class="font-mono text-slate-600">Geant4-DNA Research · Tomsk State University · JINR Dubna</p>
     </footer>
 
     <!-- INTERACTIVE FLOATING MONTY WIDGET (Bottom Right) -->
     <div class="fixed bottom-6 right-6 z-50 flex items-end gap-3 pointer-events-none">
-        <!-- Speech Bubble -->
         <div id="monty-bubble" class="glass p-3 rounded-2xl rounded-br-none text-xs text-slate-200 max-w-xs shadow-2xl border border-monty-green/40 opacity-0 transition-all duration-300 pointer-events-auto">
             <p id="monty-text" class="font-mono text-[11px] text-monty-green">Привет! Я Монти! Жми на меня, если хочешь услышать факт о Geant4-DNA или физике частиц! 🧬</p>
         </div>
         
-        <!-- Mascot Button -->
+        <!-- TODO: PLACEHOLDER - Upload monty-coffee.png -->
         <button onclick="talkMonty()" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-g4-900 border-2 border-monty-green p-1 shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:scale-110 transition cursor-pointer pointer-events-auto animate-float">
-            <img src="monty-space.png" alt="Спросить Монти" class="w-full h-full object-contain" onerror="this.src='https://ui-avatars.com/api/?name=M&background=00FF66&color=050811'">
+            <img src="monty-coffee.png" alt="Спросить Монти" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
         </button>
     </div>
 
+    <!-- CERTIFICATE MODAL POPUP -->
+    <div id="cert-modal" class="fixed inset-0 z-50 bg-g4-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass p-6 rounded-3xl max-w-lg w-full space-y-4 relative border border-monty-green/40">
+            <button onclick="closeCertModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="cert-title" class="text-lg font-bold text-white">Просмотр сертификата</h3>
+            <div class="h-64 bg-g4-900 rounded-xl overflow-hidden flex items-center justify-center border border-slate-800">
+                <img id="cert-img" src="" alt="Сертификат" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400/0b1026/00FF66?text=Certificate+Image+Placeholder'">
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
     <script>
+        // 1. Language Switcher Logic
+        let currentLang = 'ru';
+        function toggleLanguage() {
+            currentLang = currentLang === 'ru' ? 'en' : 'ru';
+            document.getElementById('lang-btn-text').innerText = currentLang === 'ru' ? 'EN' : 'RU';
+            document.querySelectorAll('.lang-ru').forEach(el => el.classList.toggle('hidden', currentLang !== 'ru'));
+            document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', currentLang !== 'en'));
+        }
+
+        // 2. BibTeX Copy Logic
+        const bibtexDict = {
+            paper1: `@article{vologzhin2025muto,\n  title={Research of conformational perturbations in the Muto DNA model},\n  author={Vologzhin, Matvey and others},\n  journal={Izvestiya Vuzov. Fizika},\n  year={2025}\n}`,
+            paper2: `@article{vologzhin2026geant4,\n  title={Recent developments on ion transport in Geant4},\n  author={Vologzhin, Matvey and others},\n  journal={Moscow University Physics Bulletin},\n  year={2026}\n}`
+        };
+        function copyBibtex(key) {
+            navigator.clipboard.writeText(bibtexDict[key]);
+            alert('BibTeX скопирован в буфер обмена!');
+        }
+
+        // 3. Certificate Modal Logic
+        function openCertModal(imgSrc, title) {
+            document.getElementById('cert-title').innerText = title;
+            document.getElementById('cert-img').src = imgSrc;
+            document.getElementById('cert-modal').classList.remove('hidden');
+        }
+        function closeCertModal() {
+            document.getElementById('cert-modal').classList.add('hidden');
+        }
+
+        // 4. Particle Canvas Background Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for(let i = 0; i < 40; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5,
+                size: Math.random() * 2 + 1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00FF66';
+            ctx.strokeStyle = 'rgba(0, 255, 102, 0.15)';
+
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                for(let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if(dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // 5. Interactive Ionization Track Simulator Canvas
+        const simCanvas = document.getElementById('sim-canvas');
+        const simCtx = simCanvas.getContext('2d');
+
+        function runSimulation() {
+            simCanvas.width = simCanvas.clientWidth;
+            simCanvas.height = simCanvas.clientHeight;
+            simCtx.clearRect(0, 0, simCanvas.width, simCanvas.height);
+
+            const particleType = document.getElementById('sim-particle').value;
+            let clusters = 10;
+            let color = '#00F0FF';
+
+            if(particleType === 'proton') { clusters = 8; color = '#00F0FF'; document.getElementById('sim-ssb').innerText = '6'; document.getElementById('sim-dsb').innerText = '1'; }
+            if(particleType === 'alpha') { clusters = 25; color = '#00FF66'; document.getElementById('sim-ssb').innerText = '18'; document.getElementById('sim-dsb').innerText = '4'; }
+            if(particleType === 'ion') { clusters = 45; color = '#39FF14'; document.getElementById('sim-ssb').innerText = '32'; document.getElementById('sim-dsb').innerText = '12'; }
+
+            // Draw DNA Strand Backbone
+            simCtx.strokeStyle = 'rgba(255,255,255,0.2)';
+            simCtx.lineWidth = 3;
+            simCtx.beginPath();
+            for(let x = 0; x < simCanvas.width; x += 10) {
+                let y = simCanvas.height/2 + Math.sin(x/20) * 30;
+                if(x===0) simCtx.moveTo(x,y); else simCtx.lineTo(x,y);
+            }
+            simCtx.stroke();
+
+            // Draw Particle Track Ray
+            simCtx.strokeStyle = color;
+            simCtx.lineWidth = 4;
+            simCtx.shadowBlur = 15;
+            simCtx.shadowColor = color;
+            simCtx.beginPath();
+            simCtx.moveTo(0, simCanvas.height/2);
+            simCtx.lineTo(simCanvas.width, simCanvas.height/2);
+            simCtx.stroke();
+
+            // Draw Ionization Energy Clusters
+            for(let i = 0; i < clusters; i++) {
+                let cx = Math.random() * simCanvas.width;
+                let cy = simCanvas.height/2 + (Math.random() - 0.5) * 40;
+                simCtx.fillStyle = '#ffffff';
+                simCtx.beginPath();
+                simCtx.arc(cx, cy, Math.random() * 4 + 2, 0, Math.PI * 2);
+                simCtx.fill();
+            }
+        }
+        runSimulation();
+
+        // 6. Floating Mascot Quotes
         const monytQuotes = [
             "Знаешь ли ты? Geant4-DNA может моделировать физические процессы на нанометровом масштабе ДНК!",
             "«Дорогу осилит идущий» — главное кредо Матвея!",
@@ -400,7 +715,6 @@
             "Тяжелые ионы (He, Li, C, Ne) производят наиболее плотные ионизационные треки!",
             "Я Монти! Мои жабры сделаны из двойной спирали ДНК 🧬"
         ];
-        
         let quoteIndex = 0;
         function talkMonty() {
             const bubble = document.getElementById('monty-bubble');
@@ -408,11 +722,8 @@
             text.innerText = monytQuotes[quoteIndex];
             quoteIndex = (quoteIndex + 1) % monytQuotes.length;
             bubble.classList.remove('opacity-0');
-            setTimeout(() => {
-                bubble.classList.add('opacity-0');
-            }, 6000);
+            setTimeout(() => { bubble.classList.add('opacity-0'); }, 6000);
         }
     </script>
-
 </body>
 </html>
