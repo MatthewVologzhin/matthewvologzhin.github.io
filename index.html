@@ -10,13 +10,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         g4: { 950: '#050811', 900: '#0a0e23', 800: '#111738', 700: '#1a2250' },
-                        monty: { green: '#00FF66', lime: '#39FF14', cyan: '#00F0FF', glow: 'rgba(0, 255, 102, 0.25)' }
+                        monty: { green: '#00FF66', lime: '#39FF14', cyan: '#00F0FF' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -26,34 +27,36 @@
             }
         }
     </script>
+    
     <style>
-        .glass { background: rgba(10, 14, 35, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(0, 255, 102, 0.15); }
-        .glass-card { background: rgba(17, 23, 56, 0.65); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass { background: rgba(10, 14, 35, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(0, 255, 102, 0.15); }
+        .glass-card { background: rgba(17, 23, 56, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .glass-card:hover { border-color: rgba(0, 255, 102, 0.4); box-shadow: 0 0 25px rgba(0, 255, 102, 0.15); }
         .text-monty-gradient { background: linear-gradient(135deg, #00FF66 0%, #00F0FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(1.5deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
         }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-        .animate-float-delayed { animation: float 5s ease-in-out infinite 2s; }
+        .animate-float { animation: float 4.5s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 5.5s ease-in-out infinite 2s; }
 
-        .g4-glow-green { filter: drop-shadow(0 0 12px rgba(0, 255, 102, 0.4)); }
-        .g4-glow-box { box-shadow: 0 0 20px rgba(0, 255, 102, 0.15); }
+        .g4-glow-green { filter: drop-shadow(0 0 15px rgba(0, 255, 102, 0.5)); }
+        .g4-glow-box { box-shadow: 0 0 25px rgba(0, 255, 102, 0.2); }
     </style>
 
-    <!-- TODO: Yandex Metrika / Google Analytics placeholder -->
-    <!--
-    <script>
-        // Paste your Analytics script here
+    <!-- Three.js for 3D Ophthalmic Simulation -->
+    <script type="importmap">
+        { "imports": { 
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        } }
     </script>
-    -->
 </head>
 <body class="bg-g4-950 text-slate-200 font-sans antialiased selection:bg-monty-green selection:text-g4-950 relative">
 
     <!-- CANVAS BACKGROUND (PARTICLE TRACKS ANIMATION) -->
-    <canvas id="particle-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+    <canvas id="particle-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-30"></canvas>
 
     <!-- NAVIGATION -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-monty-green/20 px-4 lg:px-8 py-3 transition-all">
@@ -65,16 +68,16 @@
             
             <div class="hidden md:flex space-x-6 text-sm font-medium">
                 <a href="#about" class="hover:text-monty-green transition"><span class="lang-ru">Обо мне</span><span class="lang-en hidden">About</span></a>
-                <a href="#simulator" class="hover:text-monty-green transition"><span class="lang-ru">Симулятор</span><span class="lang-en hidden">Simulator</span></a>
+                <a href="#sim3d" class="hover:text-monty-green transition"><span class="lang-ru">3D-Симулятор</span><span class="lang-en hidden">3D Simulator</span></a>
                 <a href="#experience" class="hover:text-monty-green transition"><span class="lang-ru">Опыт</span><span class="lang-en hidden">Experience</span></a>
                 <a href="#publications" class="hover:text-monty-green transition"><span class="lang-ru">Публикации</span><span class="lang-en hidden">Publications</span></a>
+                <a href="#presentations" class="hover:text-monty-green transition"><span class="lang-ru">Презентации</span><span class="lang-en hidden">Presentations</span></a>
                 <a href="#courses" class="hover:text-monty-green transition"><span class="lang-ru">Курсы</span><span class="lang-en hidden">Courses</span></a>
-                <a href="#gallery" class="hover:text-monty-green transition"><span class="lang-ru">Галерея</span><span class="lang-en hidden">Gallery</span></a>
+                <a href="#repos" class="hover:text-monty-green transition"><span class="lang-ru">GitHub</span><span class="lang-en hidden">GitHub Repos</span></a>
             </div>
 
             <div class="flex items-center gap-3">
-                <!-- LANGUAGE TOGGLE BUTTON -->
-                <button onclick="toggleLanguage()" class="px-2.5 py-1 rounded-lg border border-monty-green/40 text-monty-green font-mono text-xs font-bold hover:bg-monty-green/10 transition flex items-center gap-1">
+                <button onclick="toggleLanguage()" class="px-3 py-1 rounded-lg border border-monty-green/40 text-monty-green font-mono text-xs font-bold hover:bg-monty-green/10 transition flex items-center gap-1.5">
                     <i class="fa-solid fa-globe"></i> <span id="lang-btn-text">EN</span>
                 </button>
 
@@ -86,7 +89,7 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION WITH PHOTO CAROUSEL -->
     <section class="relative min-h-screen flex items-center pt-28 pb-16 px-4 lg:px-8 overflow-hidden z-10">
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-monty-green/10 rounded-full blur-[140px] -z-10 pointer-events-none"></div>
 
@@ -113,7 +116,7 @@
                     <span class="lang-en hidden">Simulating ionizing particle tracks, DNA damage, and heavy ion microdosimetry. Developing physical models in <strong>Geant4-DNA</strong> and building interactive education in particle physics.</span>
                 </p>
 
-                <!-- CREDO CAROUSEL/LIST -->
+                <!-- CREDO -->
                 <div class="glass-card p-4 rounded-xl border-l-4 border-monty-green space-y-2">
                     <p class="text-xs font-mono text-monty-green uppercase tracking-wider flex items-center gap-2">
                         <i class="fa-solid fa-quote-left"></i> <span class="lang-ru">Моё кредо:</span><span class="lang-en hidden">My Credo:</span>
@@ -126,33 +129,44 @@
 
                 <!-- CONTACT & CV BUTTONS -->
                 <div class="flex flex-wrap gap-3 pt-2">
-                    <!-- TODO: PLACEHOLDER - Replace '#' with link to your PDF CV file when uploaded -->
-                    <a href="#" target="_blank" onclick="alert('Загрузите файл CV (например, cv.pdf) в репозиторий и укажите ссылку на него!')" class="px-4 py-2.5 rounded-lg bg-monty-green text-g4-950 font-bold text-xs font-mono flex items-center gap-2 hover:bg-monty-lime transition">
+                    <!-- TODO: PLACEHOLDER assets/docs/cv.pdf -->
+                    <a href="assets/docs/cv.pdf" target="_blank" onclick="if(!this.href.endsWith('.pdf')) alert('Добавьте файл CV в папку assets/docs/cv.pdf');" class="px-4 py-2.5 rounded-lg bg-monty-green text-g4-950 font-bold text-xs font-mono flex items-center gap-2 hover:bg-monty-lime transition">
                         <i class="fa-solid fa-file-pdf"></i> <span class="lang-ru">Скачать CV (PDF)</span><span class="lang-en hidden">Download CV (PDF)</span>
                     </a>
-                    <a href="mailto:matvey.vologzhin@mail.ru" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-solid fa-envelope text-monty-green"></i> matvey.vologzhin@mail.ru</a>
+                    <a href="mailto:matvey.vologzhin@mail.tsu.ru" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-solid fa-envelope text-monty-green"></i> matvey.vologzhin@mail.tsu.ru</a>
                     <a href="https://github.com/matthew_kryze" target="_blank" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-brands fa-github text-monty-green"></i> GitHub</a>
                     <a href="https://t.me/Matthew_Vologzhin" target="_blank" class="glass px-4 py-2.5 rounded-lg text-xs font-mono flex items-center gap-2 hover:border-monty-green transition"><i class="fa-brands fa-telegram text-monty-green"></i> Telegram</a>
                 </div>
             </div>
 
-            <!-- PROFILE & MASCOT HERO CARD -->
+            <!-- PROFILE & PHOTO CAROUSEL -->
             <div class="lg:col-span-5 relative">
-                <!-- TODO: PLACEHOLDER - Upload monty-wave.png -->
-                <div class="absolute -top-12 -right-6 w-32 sm:w-40 z-20 animate-float g4-glow-green hidden sm:block">
-                    <img src="monty-wave.png" alt="Монти приветствует!" class="w-full h-auto" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
+                <!-- Mascot Overlay -->
+                <!-- TODO: PLACEHOLDER assets/img/monty/wave.png -->
+                <div class="absolute -top-14 -right-6 w-36 sm:w-44 z-20 animate-float g4-glow-green hidden sm:block">
+                    <img src="assets/img/monty/wave.png" alt="Монти" class="w-full h-auto" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
                 </div>
 
                 <div class="glass-card p-6 rounded-3xl space-y-6 text-center relative overflow-hidden border border-monty-green/20 g4-glow-box">
-                    <div class="w-36 h-36 mx-auto rounded-full bg-gradient-to-tr from-monty-green via-monty-cyan to-blue-600 p-1">
-                        <div class="w-full h-full bg-g4-900 rounded-full flex items-center justify-center overflow-hidden">
-                            <!-- TODO: PLACEHOLDER - Upload avatar.jpg -->
-                            <img src="avatar.jpg" alt="Матвей Вологжин" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Matt+Vologzhin&background=0b1026&color=00FF66'">
+                    
+                    <!-- Interactive Photo Carousel -->
+                    <div class="relative w-44 h-44 mx-auto group">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-monty-green via-monty-cyan to-blue-600 p-1">
+                            <div class="w-full h-full bg-g4-900 rounded-full overflow-hidden relative">
+                                <!-- TODO: PLACEHOLDER Add photos assets/img/avatar-1.jpg, avatar-2.jpg -->
+                                <img id="carousel-img-1" src="assets/img/avatar-1.jpg" alt="Матвей Вологжин" class="w-full h-full object-cover transition-opacity duration-500" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Matt+Vologzhin&background=0b1026&color=00FF66'">
+                                <img id="carousel-img-2" src="assets/img/avatar-2.jpg" alt="Матвей Вологжин" class="w-full h-full object-cover transition-opacity duration-500 absolute inset-0 opacity-0" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=M+V&background=0b1026&color=00F0FF'">
+                            </div>
                         </div>
+
+                        <!-- Carousel Controls -->
+                        <button onclick="prevPhoto()" class="absolute left-0 top-1/2 -translate-y-1/2 bg-g4-950/80 hover:bg-monty-green hover:text-g4-950 text-white w-7 h-7 rounded-full text-xs font-bold transition flex items-center justify-center border border-slate-700">‹</button>
+                        <button onclick="nextPhoto()" class="absolute right-0 top-1/2 -translate-y-1/2 bg-g4-950/80 hover:bg-monty-green hover:text-g4-950 text-white w-7 h-7 rounded-full text-xs font-bold transition flex items-center justify-center border border-slate-700">›</button>
                     </div>
+
                     <div>
                         <h3 class="text-xl font-bold text-white"><span class="lang-ru">Томск / Дубна, РФ</span><span class="lang-en hidden">Tomsk / Dubna, Russia</span></h3>
-                        <p class="text-xs font-mono text-monty-cyan">+7-902-569-66-20</p>
+                        <p class="text-xs font-mono text-monty-cyan">matvey.vologzhin@mail.tsu.ru</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 text-left">
@@ -162,7 +176,7 @@
                         </div>
                         <div class="bg-g4-950/80 p-3 rounded-lg border border-slate-800">
                             <span class="block text-xl font-bold text-monty-cyan font-mono">Stepik</span>
-                            <span class="text-xs text-slate-400">Course Author</span>
+                            <span class="text-xs text-slate-400"><span class="lang-ru">Курс по физике</span><span class="lang-en hidden">Physics Course</span></span>
                         </div>
                     </div>
                 </div>
@@ -171,53 +185,63 @@
         </div>
     </section>
 
-    <!-- INTERACTIVE GEANT4-DNA PARTICLE TRACK SIMULATOR -->
-    <section id="simulator" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/50 z-10 relative">
+    <!-- ADVANCED THREE.JS OPHTHALMIC PROTON BEAM SIMULATOR (Eye Proton Beam) -->
+    <section id="sim3d" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/50 z-10 relative">
         <div class="max-w-7xl mx-auto space-y-8">
             <div class="text-center space-y-2">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-monty-green/10 text-monty-green text-xs font-mono border border-monty-green/30">
-                    <i class="fa-solid fa-flask"></i> <span class="lang-ru">Интерактивный эксперимент</span><span class="lang-en hidden">Interactive Experiment</span>
+                    <i class="fa-solid fa-cube"></i> <span class="lang-ru">Интерактивный 3D-Модуль</span><span class="lang-en hidden">Interactive 3D Module</span>
                 </div>
-                <h2 class="text-3xl font-extrabold text-white"><span class="lang-ru">Мини-симулятор треков ионизации</span><span class="lang-en hidden">Ionization Track Mini-Simulator</span></h2>
-                <p class="text-slate-400 text-sm max-w-xl mx-auto"><span class="lang-ru">Выбери тип частицы и посмотри симуляцию взаимодействия с микромасштабом ДНК</span><span class="lang-en hidden">Select a particle type and run a Monte-Carlo simulation on DNA microscale</span></p>
+                <h2 class="text-3xl font-extrabold text-white"><span class="lang-ru">3D-Моделирование облучения опухоли глаза</span><span class="lang-en hidden">3D Ophthalmic Proton Beam Planning</span></h2>
+                <p class="text-slate-400 text-sm max-w-2xl mx-auto"><span class="lang-ru">Симуляция переноса дозы протонов и отсечения анатомических сечений глаза в реальном времени (Three.js)</span><span class="lang-en hidden">Real-time Bragg peak dose deposition and 3D eye slicing system (Three.js)</span></p>
             </div>
 
-            <div class="glass p-6 sm:p-8 rounded-3xl border border-monty-green/30 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <!-- Controls -->
-                <div class="lg:col-span-5 space-y-6">
+            <!-- 3D Viewport & Embedded Controls Container -->
+            <div class="glass p-4 rounded-3xl border border-monty-green/30 relative overflow-hidden h-[600px] flex flex-col md:flex-row gap-4">
+                
+                <!-- Floating Control Panel -->
+                <div class="w-full md:w-72 bg-g4-950/90 p-4 rounded-2xl border border-slate-800 z-20 text-xs font-mono space-y-4 overflow-y-auto max-h-[560px]">
+                    <h3 class="text-sm font-bold text-monty-green border-b border-monty-green/30 pb-2"><span class="lang-ru">Параметры пучка</span><span class="lang-en hidden">Beam Controls</span></h3>
+                    
                     <div class="space-y-2">
-                        <label class="text-xs font-mono text-monty-green uppercase"><span class="lang-ru">Выберите налетающую частицу:</span><span class="lang-en hidden">Select Incident Particle:</span></label>
-                        <select id="sim-particle" class="w-full bg-g4-950 border border-slate-700 rounded-xl px-4 py-3 text-xs font-mono text-white focus:border-monty-green outline-none">
-                            <option value="proton">Proton (1 MeV) - Редкая ионизация</option>
-                            <option value="alpha" selected>Alpha particle (He, 5 MeV) - Выход ЛПЭ</option>
-                            <option value="ion">Heavy Ion (Ne / C) - Плотный кластерный трек</option>
-                        </select>
+                        <label class="flex justify-between text-slate-300"><span><span class="lang-ru">Энергия пучка</span><span class="lang-en hidden">Beam Energy</span></span><span id="lbl-rng" class="text-monty-cyan">1.1</span></label>
+                        <input type="range" id="beamRange" min="0.5" max="1.8" step="0.01" value="1.1" class="w-full accent-monty-green cursor-pointer">
+                        
+                        <label class="flex justify-between text-slate-300"><span><span class="lang-ru">Интенсивность</span><span class="lang-en hidden">Power</span></span><span id="lbl-pwr" class="text-monty-cyan">1.5</span></label>
+                        <input type="range" id="beamPower" min="0.5" max="2.5" step="0.01" value="1.5" class="w-full accent-monty-green cursor-pointer">
                     </div>
 
-                    <button onclick="runSimulation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-monty-green to-monty-cyan text-g4-950 font-bold text-xs uppercase font-mono tracking-wider flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(0,255,102,0.4)] transition">
-                        <i class="fa-solid fa-play"></i> <span class="lang-ru">Запустить симуляцию Geant4</span><span class="lang-en hidden">Run Geant4 Simulation</span>
-                    </button>
+                    <h3 class="text-sm font-bold text-monty-green border-b border-monty-green/30 pb-2 pt-2"><span class="lang-ru">Опухоль (Tumor)</span><span class="lang-en hidden">Tumor Params</span></h3>
+                    <div class="space-y-2">
+                        <label class="text-slate-400">Position X / Y / Z</label>
+                        <input type="range" id="tmX" min="-0.8" max="0.8" step="0.01" value="0.4" class="w-full accent-monty-green">
+                        <input type="range" id="tmY" min="-0.8" max="0.8" step="0.01" value="0.2" class="w-full accent-monty-green">
+                        <input type="range" id="tmZ" min="-0.8" max="0.8" step="0.01" value="-0.3" class="w-full accent-monty-green">
+                        <label class="text-slate-400"><span class="lang-ru">Размер опухоли</span><span class="lang-en hidden">Size</span></label>
+                        <input type="range" id="tmSize" min="0.05" max="0.4" step="0.01" value="0.2" class="w-full accent-monty-green">
+                    </div>
 
-                    <!-- Stats Output -->
-                    <div class="grid grid-cols-2 gap-3 pt-2">
-                        <div class="bg-g4-950/80 p-3 rounded-xl border border-slate-800 text-center">
-                            <span class="block text-xs font-mono text-slate-400">Single Strand Breaks (SSB)</span>
-                            <span id="sim-ssb" class="text-2xl font-mono font-bold text-monty-cyan">12</span>
-                        </div>
-                        <div class="bg-g4-950/80 p-3 rounded-xl border border-slate-800 text-center">
-                            <span class="block text-xs font-mono text-slate-400">Double Strand Breaks (DSB)</span>
-                            <span id="sim-dsb" class="text-2xl font-mono font-bold text-monty-green">3</span>
-                        </div>
+                    <h3 class="text-sm font-bold text-monty-green border-b border-monty-green/30 pb-2 pt-2"><span class="lang-ru">Срезы глаза (Slices)</span><span class="lang-en hidden">Slices Position</span></h3>
+                    <div class="space-y-2">
+                        <label class="text-slate-400">Slice X / Y / Z</label>
+                        <input type="range" id="posX" min="-1" max="1" step="0.01" value="0.3" class="w-full accent-monty-cyan">
+                        <input type="range" id="posY" min="-1" max="1" step="0.01" value="0.3" class="w-full accent-monty-cyan">
+                        <input type="range" id="posZ" min="-1" max="1" step="0.01" value="0.3" class="w-full accent-monty-cyan">
+                    </div>
+
+                    <div class="p-2.5 rounded bg-g4-900 border border-slate-800 text-[10px] text-slate-400 space-y-1">
+                        <p>• <span class="lang-ru">Фиолетовый — зона деструкции опухоли</span><span class="lang-en hidden">Purple — Tumor destruction zone</span></p>
+                        <p>• <span class="lang-ru">Цилиндр — насадка ускорителя протонов</span><span class="lang-en hidden">Cylinder — Accelerator nozzle</span></p>
+                    </div>
+                </div>
+
+                <!-- 3D WebGL Canvas Container -->
+                <div id="three-container" class="w-full h-full rounded-2xl overflow-hidden relative bg-black flex-1 border border-slate-800">
+                    <div class="absolute bottom-3 right-3 bg-g4-950/80 px-3 py-1 rounded border border-slate-800 text-[10px] font-mono text-monty-green pointer-events-none z-10">
+                        <i class="fa-solid fa-arrows-spin"></i> Rotate: Left Click | Pan: Right Click
                     </div>
                 </div>
 
-                <!-- Simulation Visual Canvas -->
-                <div class="lg:col-span-7 relative h-64 sm:h-80 bg-g4-950 rounded-2xl border border-slate-800 overflow-hidden flex items-center justify-center">
-                    <canvas id="sim-canvas" class="w-full h-full"></canvas>
-                    <div class="absolute top-3 left-3 px-2.5 py-1 rounded bg-g4-900/80 border border-slate-800 font-mono text-[10px] text-slate-400">
-                        DNA Nanometer Target Scale (10 nm)
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -226,14 +250,19 @@
     <section id="about" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 relative z-10">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            <div class="lg:col-span-4 text-center lg:text-left space-y-4">
-                <!-- TODO: PLACEHOLDER - Upload monty-think.png -->
-                <img src="monty-think.png" alt="Монти размышляет" class="w-48 sm:w-56 mx-auto lg:mx-0 animate-float-delayed g4-glow-green" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
+            <div class="lg:col-span-5 text-center lg:text-left space-y-4">
+                <!-- TODO: PLACEHOLDER assets/img/monty/think.png (Enlarged) -->
+                <div class="relative inline-block">
+                    <img src="assets/img/monty/think.png" alt="Монти размышляет" class="w-56 sm:w-72 mx-auto lg:mx-0 animate-float-delayed g4-glow-green" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
+                    <span class="absolute -bottom-2 right-0 px-2.5 py-1 rounded-full bg-g4-900 border border-monty-green/40 text-[10px] font-mono text-monty-green">
+                        Monty Axolotl v2.0
+                    </span>
+                </div>
                 <h2 class="text-2xl font-bold text-white"><span class="lang-ru">Технологии & Моделирование</span><span class="lang-en hidden">Technologies & Modeling</span></h2>
                 <p class="text-xs text-slate-400">«Монти помогает собирать точные модели физических процессов и разрывов ДНК»</p>
             </div>
 
-            <div class="lg:col-span-8 space-y-6">
+            <div class="lg:col-span-7 space-y-6">
                 <div class="glass p-6 rounded-2xl border-l-4 border-monty-green">
                     <h3 class="text-sm font-mono text-monty-green uppercase tracking-wider mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-atom"></i> <span class="lang-ru">Инструментарий физика-теоретика</span><span class="lang-en hidden">Physicist's Toolkit</span>
@@ -264,27 +293,27 @@
                     <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Опыт работы и Лаборатории</span><span class="lang-en hidden">Experience & Laboratories</span></h2>
                     <p class="text-slate-400 text-sm"><span class="lang-ru">Исследования треков ионизирующих частиц и моделей ДНК</span><span class="lang-en hidden">Research on ionizing particle tracks & DNA modeling</span></p>
                 </div>
-                <!-- TODO: PLACEHOLDER - Upload monty-code.png -->
-                <img src="monty-code.png" alt="Монти за компьютером" class="w-24 sm:w-28 animate-float g4-glow-green hidden md:block" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
+                <!-- TODO: PLACEHOLDER assets/img/monty/code.png (Enlarged) -->
+                <img src="assets/img/monty/code.png" alt="Монти кодит" class="w-32 sm:w-40 animate-float g4-glow-green hidden md:block" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="glass-card p-6 rounded-2xl space-y-3 border-l-2 border-monty-green">
                     <div class="flex justify-between items-start">
-                        <span class="text-xs font-mono text-monty-green">Сен. 2024 — Наст. время</span>
+                        <span class="text-xs font-mono text-monty-green"><span class="lang-ru">Сен. 2024 — Наст. время</span><span class="lang-en hidden">Sep 2024 — Present</span></span>
                         <span class="text-xs bg-monty-green/10 text-monty-green px-2 py-0.5 rounded">ТГУ · Томск</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Лаборатория анализа данных физики высоких энергий</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">Валидация физических листов Geant4-DNA (Range, Stopping Power, Radial dose). Публикация в Medical Physics и моделирование радиолиза воды.</p>
+                    <h3 class="text-lg font-bold text-white"><span class="lang-ru">Лаборатория анализа данных физики высоких энергий</span><span class="lang-en hidden">High Energy Physics Data Analysis Lab</span></h3>
+                    <p class="text-xs text-slate-300 leading-relaxed"><span class="lang-ru">Валидация физических листов Geant4-DNA (Range, Stopping Power, Radial dose). Публикация в Medical Physics и моделирование радиолиза воды.</span><span class="lang-en hidden">Validation of Geant4-DNA physics lists (Range, Stopping Power, Radial dose). Paper in Medical Physics & water radiolysis modeling.</span></p>
                 </div>
 
                 <div class="glass-card p-6 rounded-2xl space-y-3 border-l-2 border-monty-cyan">
                     <div class="flex justify-between items-start">
-                        <span class="text-xs font-mono text-monty-cyan">Сен. 2023 — Наст. время</span>
+                        <span class="text-xs font-mono text-monty-cyan"><span class="lang-ru">Сен. 2023 — Наст. время</span><span class="lang-en hidden">Sep 2023 — Present</span></span>
                         <span class="text-xs bg-monty-cyan/10 text-monty-cyan px-2 py-0.5 rounded">ТГУ · Томск</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Кафедра теоретической физики</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">Исследование конформационных возмущений в модели Муто молекулы ДНК. Подтверждение «открытого состояния» вейвлет-анализом в Maple.</p>
+                    <h3 class="text-lg font-bold text-white"><span class="lang-ru">Кафедра теоретической физики</span><span class="lang-en hidden">Theoretical Physics Department</span></h3>
+                    <p class="text-xs text-slate-300 leading-relaxed"><span class="lang-ru">Исследование конформационных возмущений в модели Муто молекулы ДНК. Подтверждение «открытого состояния» вейвлет-анализом в Maple.</span><span class="lang-en hidden">Conformational perturbations in the Muto DNA model. Proof of open states using wavelet analysis in Maple.</span></p>
                 </div>
 
                 <div class="glass-card p-6 rounded-2xl space-y-3">
@@ -292,31 +321,31 @@
                         <span class="text-xs font-mono text-monty-green">2025 — 2026 (START & INTEREST)</span>
                         <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">ОИЯИ · Дубна</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Объединенный институт ядерных исследований</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">Валидация ионизационных кластеров (ICSD) и тяжелых ионов в Geant4 11.3. Применение DBSCAN/K-Means для анализа повреждений ДНК.</p>
+                    <h3 class="text-lg font-bold text-white"><span class="lang-ru">Объединенный институт ядерных исследований</span><span class="lang-en hidden">Joint Institute for Nuclear Research (JINR)</span></h3>
+                    <p class="text-xs text-slate-300 leading-relaxed"><span class="lang-ru">Валидация ионизационных кластеров (ICSD) и тяжелых ионов в Geant4 11.3. Применение DBSCAN/K-Means для анализа повреждений ДНК.</span><span class="lang-en hidden">Ionization cluster size distributions (ICSD) validation in Geant4 11.3. Machine learning (DBSCAN/K-Means) for DNA damage.</span></p>
                 </div>
 
                 <div class="glass-card p-6 rounded-2xl space-y-3">
                     <div class="flex justify-between items-start">
                         <span class="text-xs font-mono text-slate-400">2021 — 2027</span>
-                        <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Бакалавриат & Магистратура</span>
+                        <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded"><span class="lang-ru">Бакалавриат & Магистратура</span><span class="lang-en hidden">BSc & MSc Degrees</span></span>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Физический факультет ТГУ</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">Исследования радиационных эффектов тяжелых ионов (He, Li, C, Ne), ионизации Радда и микродозиметрии.</p>
+                    <h3 class="text-lg font-bold text-white"><span class="lang-ru">Физический факультет ТГУ</span><span class="lang-en hidden">Faculty of Physics, TSU</span></h3>
+                    <p class="text-xs text-slate-300 leading-relaxed"><span class="lang-ru">Исследования радиационных эффектов тяжелых ионов (He, Li, C, Ne), ионизации Радда и микродозиметрии.</span><span class="lang-en hidden">Radiation effects of heavy ions (He, Li, C, Ne), Rudd ionization model, and microdosimetry.</span></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PUBLICATIONS & BIBTEX -->
+    <!-- PUBLICATIONS & CONFERENCES -->
     <section id="publications" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 z-10 relative">
         <div class="max-w-7xl mx-auto space-y-12">
-            <div class="flex items-center gap-6">
-                <!-- TODO: PLACEHOLDER - Upload monty-present.png -->
-                <img src="monty-present.png" alt="Монти у голограммы" class="w-24 sm:w-32 animate-float g4-glow-green hidden sm:block" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
+            <div class="flex items-center gap-8">
+                <!-- TODO: PLACEHOLDER assets/img/monty/present.png (Enlarged) -->
+                <img src="assets/img/monty/present.png" alt="Монти презентует" class="w-36 sm:w-48 animate-float g4-glow-green hidden sm:block" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
                 <div>
                     <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Публикации и Конференции</span><span class="lang-en hidden">Publications & Conferences</span></h2>
-                    <p class="text-slate-400 text-sm"><span class="lang-ru">Научные работы в журналах и выступления (Дубна, МГУ, Севастополь)</span><span class="lang-en hidden">Research papers and conference talks</span></p>
+                    <p class="text-slate-400 text-sm"><span class="lang-ru">Научные работы в журналах и выступления (Дубна, МГУ, Севастополь)</span><span class="lang-en hidden">Journal articles & international talks</span></p>
                 </div>
             </div>
 
@@ -324,30 +353,92 @@
                 <div class="glass p-6 rounded-2xl space-y-3 relative group">
                     <div class="flex justify-between items-start">
                         <span class="text-xs font-mono text-monty-green">Апр. 2025 · Известия Вузов. Физика</span>
-                        <button onclick="copyBibtex('paper1')" class="px-2 py-1 rounded bg-g4-800 hover:bg-monty-green hover:text-g4-950 text-[10px] font-mono text-slate-300 transition">
+                        <button onclick="copyBibtex('paper1')" class="px-2.5 py-1 rounded bg-g4-800 hover:bg-monty-green hover:text-g4-950 text-[10px] font-mono text-slate-300 transition">
                             <i class="fa-solid fa-copy"></i> BibTeX
                         </button>
                     </div>
-                    <h3 class="text-base font-bold text-white">Исследование конформационных возмущений в модели Муто ДНК</h3>
-                    <p class="text-xs text-slate-400">Вейвлет-анализ открытых состояний ДНК с потенциалами Тоды и Леннард-Джонса.</p>
+                    <h3 class="text-base font-bold text-white"><span class="lang-ru">Исследование конформационных возмущений в модели Муто ДНК</span><span class="lang-en hidden">Research of conformational perturbations in the Muto DNA model</span></h3>
+                    <p class="text-xs text-slate-400"><span class="lang-ru">Вейвлет-анализ открытых состояний ДНК с потенциалами Тоды и Леннард-Джонса.</span><span class="lang-en hidden">Wavelet analysis of DNA open states with Toda and Lennard-Jones potentials.</span></p>
                 </div>
 
                 <div class="glass p-6 rounded-2xl space-y-3 relative group">
                     <div class="flex justify-between items-start">
-                        <span class="text-xs font-mono text-monty-cyan">2026 (В печати) · Moscow University Physics Bulletin</span>
-                        <button onclick="copyBibtex('paper2')" class="px-2 py-1 rounded bg-g4-800 hover:bg-monty-cyan hover:text-g4-950 text-[10px] font-mono text-slate-300 transition">
+                        <span class="text-xs font-mono text-monty-cyan">2026 (In press) · Moscow University Physics Bulletin</span>
+                        <button onclick="copyBibtex('paper2')" class="px-2.5 py-1 rounded bg-g4-800 hover:bg-monty-cyan hover:text-g4-950 text-[10px] font-mono text-slate-300 transition">
                             <i class="fa-solid fa-copy"></i> BibTeX
                         </button>
                     </div>
                     <h3 class="text-base font-bold text-white">Recent developments on ion transport in Geant4</h3>
-                    <p class="text-xs text-slate-400">Двукратное ускорение симуляции ионизации Радда в подпакете Geant4-DNA.</p>
+                    <p class="text-xs text-slate-400"><span class="lang-ru">Двукратное ускорение симуляции ионизации Радда в подпакете Geant4-DNA.</span><span class="lang-en hidden">2x speedup of Rudd ionization simulations in Geant4-DNA subpackage.</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: PRESENTATIONS SHOWCASE (.pptx viewer modal) -->
+    <section id="presentations" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/40 z-10 relative">
+        <div class="max-w-7xl mx-auto space-y-8">
+            <div class="flex justify-between items-end">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-monty-cyan/10 text-monty-cyan text-xs font-mono border border-monty-cyan/30 mb-2">
+                        <i class="fa-solid fa-file-powerpoint"></i> Slide Decks
+                    </div>
+                    <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Презентации и Доклады</span><span class="lang-en hidden">Presentations & Slides</span></h2>
+                    <p class="text-slate-400 text-sm"><span class="lang-ru">Интерактивный просмотр и скачивание презентаций с GIF-анимациями (.pptx)</span><span class="lang-en hidden">Explore and download scientific slide decks (.pptx)</span></p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- PPTX Card 1 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between">
+                    <div class="space-y-2">
+                        <span class="px-2 py-0.5 rounded bg-monty-green/20 text-monty-green font-mono text-[10px]">Geant4-DNA</span>
+                        <h3 class="text-base font-bold text-white">Оптимизация ионизации Радда</h3>
+                        <p class="text-xs text-slate-400">Доклад на LomCon'25 (МГУ). Анимация треков и двухкратное ускорение симуляций.</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <!-- TODO: PLACEHOLDER assets/presentations/lomcon2025.pptx -->
+                        <a href="assets/presentations/lomcon2025.pptx" download class="w-full py-2 rounded-xl bg-g4-800 hover:bg-monty-green hover:text-g4-950 font-mono text-xs font-bold text-slate-200 transition text-center">
+                            <i class="fa-solid fa-download"></i> Скачать PPTX
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PPTX Card 2 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between">
+                    <div class="space-y-2">
+                        <span class="px-2 py-0.5 rounded bg-monty-cyan/20 text-monty-cyan font-mono text-[10px]">ДНК Модель</span>
+                        <h3 class="text-base font-bold text-white">Вейвлет-анализ открытых состояний ДНК</h3>
+                        <p class="text-xs text-slate-400">Презентация по модели Муто с анимациями солитонов.</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <!-- TODO: PLACEHOLDER assets/presentations/dna-solitons.pptx -->
+                        <a href="assets/presentations/dna-solitons.pptx" download class="w-full py-2 rounded-xl bg-g4-800 hover:bg-monty-cyan hover:text-g4-950 font-mono text-xs font-bold text-slate-200 transition text-center">
+                            <i class="fa-solid fa-download"></i> Скачать PPTX
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PPTX Card 3 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between">
+                    <div class="space-y-2">
+                        <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px]">ОИЯИ Дубна</span>
+                        <h3 class="text-base font-bold text-white">Валидация ионизационных кластеров (ICSD)</h3>
+                        <p class="text-xs text-slate-400">Слайды с программы INTEREST Wave 13/14.</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <!-- TODO: PLACEHOLDER assets/presentations/jinr-icsd.pptx -->
+                        <a href="assets/presentations/jinr-icsd.pptx" download class="w-full py-2 rounded-xl bg-g4-800 hover:bg-blue-400 hover:text-g4-950 font-mono text-xs font-bold text-slate-200 transition text-center">
+                            <i class="fa-solid fa-download"></i> Скачать PPTX
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- EXPANDABLE COURSES ARCHITECTURE SECTION -->
-    <section id="courses" class="py-20 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/60 relative z-10">
+    <section id="courses" class="py-20 px-4 lg:px-8 border-t border-slate-800/60 z-10 relative">
         <div class="max-w-7xl mx-auto space-y-12">
             
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -356,11 +447,11 @@
                         <i class="fa-solid fa-graduation-cap"></i> <span class="lang-ru">Образовательная платформа</span><span class="lang-en hidden">Educational Platform</span>
                     </div>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white"><span class="lang-ru">Онлайн-курсы & Обучение</span><span class="lang-en hidden">Online Courses & Teaching</span></h2>
-                    <p class="text-slate-400 text-sm max-w-xl">Авторские курсы по физике частиц, моделированию и олимпиадной подготовке</p>
+                    <p class="text-slate-400 text-sm max-w-xl"><span class="lang-ru">Авторские курсы по физике частиц, моделированию и олимпиадной подготовке</span><span class="lang-en hidden">Interactive online courses in particle physics and modeling</span></p>
                 </div>
                 
-                <!-- TODO: PLACEHOLDER - Upload monty-maestro.png -->
-                <img src="monty-maestro.png" alt="Монти Дирижер" class="w-32 sm:w-40 animate-float g4-glow-green" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
+                <!-- TODO: PLACEHOLDER assets/img/monty/maestro.png (Enlarged) -->
+                <img src="assets/img/monty/maestro.png" alt="Монти Дирижер" class="w-40 sm:w-56 animate-float g4-glow-green" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
             </div>
 
             <!-- COURSE CATALOG GRID -->
@@ -457,90 +548,25 @@
         </div>
     </section>
 
-    <!-- GALLERY SECTION (VOLLEYBALL, CONFERENCES, MEDIAFORUM) -->
-    <section id="gallery" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 z-10 relative">
+    <!-- NEW SECTION: GITHUB REPOSITORIES EXPLORER (GitHub API Integration) -->
+    <section id="repos" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/30 z-10 relative">
         <div class="max-w-7xl mx-auto space-y-8">
-            <div>
-                <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Галерея & Активности</span><span class="lang-en hidden">Gallery & Activities</span></h2>
-                <p class="text-slate-400 text-sm">Конференции, волейбол, лидерские интенсивы и студенческая жизнь</p>
+            <div class="flex justify-between items-end">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-monty-green/10 text-monty-green text-xs font-mono border border-monty-green/30 mb-2">
+                        <i class="fa-brands fa-github"></i> Open Source Repositories
+                    </div>
+                    <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Репозитории на GitHub</span><span class="lang-en hidden">GitHub Code Repositories</span></h2>
+                    <p class="text-slate-400 text-sm"><span class="lang-ru">Прямой доступ к исходному коду моих симуляций и скриптов (@matthew_kryze)</span><span class="lang-en hidden">Live integration with GitHub API</span></p>
+                </div>
+                <a href="https://github.com/matthew_kryze" target="_blank" class="text-xs font-mono text-monty-green hover:underline"><span class="lang-ru">Все репозитории ➔</span><span class="lang-en hidden">All Repositories ➔</span></a>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- TODO: PLACEHOLDER - Replace photo-volleyball.jpg -->
-                <div class="glass-card rounded-2xl overflow-hidden group">
-                    <div class="h-48 bg-g4-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="photo-volleyball.jpg" alt="Волейбол" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=600&q=80'">
-                        <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-g4-950/80 text-[10px] font-mono text-monty-green">Волейбол (2-е место)</span>
-                    </div>
-                    <div class="p-4">
-                        <h4 class="text-sm font-bold text-white">Университетский Кубок Профкома</h4>
-                        <p class="text-xs text-slate-400">Организатор финалов и призер турнира по волейболу.</p>
-                    </div>
-                </div>
-
-                <!-- TODO: PLACEHOLDER - Replace photo-dubna.jpg -->
-                <div class="glass-card rounded-2xl overflow-hidden group">
-                    <div class="h-48 bg-g4-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="photo-dubna.jpg" alt="Дубна ОИЯИ" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80'">
-                        <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-g4-950/80 text-[10px] font-mono text-monty-cyan">ОИЯИ · Дубна</span>
-                    </div>
-                    <div class="p-4">
-                        <h4 class="text-sm font-bold text-white">Конференция AYSS & START Session</h4>
-                        <p class="text-xs text-slate-400">Постерные доклады и исследования кластеров ионизации.</p>
-                    </div>
-                </div>
-
-                <!-- TODO: PLACEHOLDER - Replace photo-forum.jpg -->
-                <div class="glass-card rounded-2xl overflow-hidden group">
-                    <div class="h-48 bg-g4-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="photo-forum.jpg" alt="Медиафорум" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80'">
-                        <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-g4-950/80 text-[10px] font-mono text-monty-green">Медиафорум</span>
-                    </div>
-                    <div class="p-4">
-                        <h4 class="text-sm font-bold text-white">Региональный медиафорум</h4>
-                        <p class="text-xs text-slate-400">Организатор форума и куратор студенческих проектов.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- CERTIFICATES WITH POPUP MODAL -->
-    <section id="certificates" class="py-16 px-4 lg:px-8 border-t border-slate-800/60 bg-g4-900/30 z-10 relative">
-        <div class="max-w-7xl mx-auto space-y-8">
-            <div>
-                <h2 class="text-3xl font-bold text-white"><span class="lang-ru">Сертификаты и Повышение квалификации</span><span class="lang-en hidden">Certificates</span></h2>
-                <p class="text-slate-400 text-sm">Нажми на сертификат, чтобы открыть просмотр</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- TODO: PLACEHOLDER - Replace cert-lhc.jpg in modal -->
-                <div onclick="openCertModal('cert-lhc.jpg', 'Анализ данных LHC (ATLAS)')" class="glass-card p-5 rounded-2xl cursor-pointer hover:border-monty-green transition flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-monty-green/10 text-monty-green flex items-center justify-center text-xl font-mono"><i class="fa-solid fa-certificate"></i></div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white">Анализ данных LHC</h4>
-                        <p class="text-xs text-slate-400">Детектор ATLAS (28ч)</p>
-                    </div>
-                </div>
-
-                <!-- TODO: PLACEHOLDER - Replace cert-tutor.jpg in modal -->
-                <div onclick="openCertModal('cert-tutor.jpg', 'Цифровой тьютор')" class="glass-card p-5 rounded-2xl cursor-pointer hover:border-monty-cyan transition flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-monty-cyan/10 text-monty-cyan flex items-center justify-center text-xl font-mono"><i class="fa-solid fa-laptop-code"></i></div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white">Цифровой тьютор</h4>
-                        <p class="text-xs text-slate-400">Онлайн-образование (72ч)</p>
-                    </div>
-                </div>
-
-                <!-- TODO: PLACEHOLDER - Replace cert-workshop.jpg in modal -->
-                <div onclick="openCertModal('cert-workshop.jpg', 'Мастерская образовательных технологий')" class="glass-card p-5 rounded-2xl cursor-pointer hover:border-monty-green transition flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-monty-green/10 text-monty-green flex items-center justify-center text-xl font-mono"><i class="fa-solid fa-chalkboard-user"></i></div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white">Мастерская обр. технологий</h4>
-                        <p class="text-xs text-slate-400">Современные методы (72ч)</p>
-                    </div>
+            <!-- Dynamic GitHub Repositories Container -->
+            <div id="github-repos-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Loading State -->
+                <div class="glass p-6 rounded-2xl text-center text-xs text-slate-400 col-span-3 font-mono">
+                    <i class="fa-solid fa-spinner animate-spin text-monty-green text-lg"></i> Загрузка репозиториев с GitHub API...
                 </div>
             </div>
         </div>
@@ -555,29 +581,27 @@
     <!-- INTERACTIVE FLOATING MONTY WIDGET (Bottom Right) -->
     <div class="fixed bottom-6 right-6 z-50 flex items-end gap-3 pointer-events-none">
         <div id="monty-bubble" class="glass p-3 rounded-2xl rounded-br-none text-xs text-slate-200 max-w-xs shadow-2xl border border-monty-green/40 opacity-0 transition-all duration-300 pointer-events-auto">
-            <p id="monty-text" class="font-mono text-[11px] text-monty-green">Привет! Я Монти! Жми на меня, если хочешь услышать факт о Geant4-DNA или физике частиц! 🧬</p>
+            <p id="monty-text" class="font-mono text-[11px] text-monty-green">Привет! Я Монти, маскот исследовательской группы Geant4-DNA! 🧬</p>
         </div>
         
-        <!-- TODO: PLACEHOLDER - Upload monty-coffee.png -->
+        <!-- TODO: PLACEHOLDER assets/img/monty/space.png -->
         <button onclick="talkMonty()" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-g4-900 border-2 border-monty-green p-1 shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:scale-110 transition cursor-pointer pointer-events-auto animate-float">
-            <img src="monty-coffee.png" alt="Спросить Монти" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
+            <img src="assets/img/monty/space.png" alt="Спросить Монти" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f98e.png'">
         </button>
-    </div>
-
-    <!-- CERTIFICATE MODAL POPUP -->
-    <div id="cert-modal" class="fixed inset-0 z-50 bg-g4-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="glass p-6 rounded-3xl max-w-lg w-full space-y-4 relative border border-monty-green/40">
-            <button onclick="closeCertModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-            <h3 id="cert-title" class="text-lg font-bold text-white">Просмотр сертификата</h3>
-            <div class="h-64 bg-g4-900 rounded-xl overflow-hidden flex items-center justify-center border border-slate-800">
-                <img id="cert-img" src="" alt="Сертификат" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400/0b1026/00FF66?text=Certificate+Image+Placeholder'">
-            </div>
-        </div>
     </div>
 
     <!-- SCRIPTS -->
     <script>
-        // 1. Language Switcher Logic
+        // 1. Photo Carousel Logic
+        let currentPhotoIndex = 1;
+        function nextPhoto() {
+            document.getElementById(`carousel-img-${currentPhotoIndex}`).classList.add('opacity-0');
+            currentPhotoIndex = currentPhotoIndex === 1 ? 2 : 1;
+            document.getElementById(`carousel-img-${currentPhotoIndex}`).classList.remove('opacity-0');
+        }
+        function prevPhoto() { nextPhoto(); }
+
+        // 2. Language Switcher Logic
         let currentLang = 'ru';
         function toggleLanguage() {
             currentLang = currentLang === 'ru' ? 'en' : 'ru';
@@ -586,7 +610,7 @@
             document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', currentLang !== 'en'));
         }
 
-        // 2. BibTeX Copy Logic
+        // 3. BibTeX Copy Logic
         const bibtexDict = {
             paper1: `@article{vologzhin2025muto,\n  title={Research of conformational perturbations in the Muto DNA model},\n  author={Vologzhin, Matvey and others},\n  journal={Izvestiya Vuzov. Fizika},\n  year={2025}\n}`,
             paper2: `@article{vologzhin2026geant4,\n  title={Recent developments on ion transport in Geant4},\n  author={Vologzhin, Matvey and others},\n  journal={Moscow University Physics Bulletin},\n  year={2026}\n}`
@@ -596,133 +620,236 @@
             alert('BibTeX скопирован в буфер обмена!');
         }
 
-        // 3. Certificate Modal Logic
-        function openCertModal(imgSrc, title) {
-            document.getElementById('cert-title').innerText = title;
-            document.getElementById('cert-img').src = imgSrc;
-            document.getElementById('cert-modal').classList.remove('hidden');
+        // 4. Live GitHub API Repositories Fetcher
+        async function fetchGitHubRepos() {
+            const container = document.getElementById('github-repos-container');
+            try {
+                const response = await fetch('https://api.github.com/users/matthew_kryze/repos?sort=updated&per_page=3');
+                if(!response.ok) throw new Error('API Error');
+                const repos = await response.json();
+                
+                container.innerHTML = repos.map(repo => `
+                    <div class="glass-card p-5 rounded-2xl space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center text-xs font-mono text-monty-green">
+                                <span><i class="fa-solid fa-code-branch"></i> ${repo.language || 'C++ / Python'}</span>
+                                <span><i class="fa-solid fa-star text-amber-400"></i> ${repo.stargazers_count}</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">${repo.name}</h4>
+                            <p class="text-xs text-slate-400 line-clamp-2">${repo.description || 'Репозиторий симуляций и научных инструментов.'}</p>
+                        </div>
+                        <a href="${repo.html_url}" target="_blank" class="w-full py-2 rounded-xl bg-g4-800 hover:bg-monty-green hover:text-g4-950 font-mono text-xs font-bold text-slate-200 transition text-center block">
+                            Открыть на GitHub ➔
+                        </a>
+                    </div>
+                `).join('');
+            } catch(e) {
+                container.innerHTML = `
+                    <div class="glass-card p-5 rounded-2xl space-y-3 col-span-3">
+                        <h4 class="text-sm font-bold text-white"><i class="fa-brands fa-github text-monty-green"></i> matthew_kryze / Geant4-DNA-Simulations</h4>
+                        <p class="text-xs text-slate-400">Моделирование переноса ионов и кластеров ионизации.</p>
+                        <a href="https://github.com/matthew_kryze" target="_blank" class="text-xs font-mono text-monty-green">Перейти в GitHub профиль ➔</a>
+                    </div>
+                `;
+            }
         }
-        function closeCertModal() {
-            document.getElementById('cert-modal').classList.add('hidden');
-        }
+        fetchGitHubRepos();
 
-        // 4. Particle Canvas Background Animation
+        // 5. Particle Canvas Background Animation
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        for(let i = 0; i < 40; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 1.5,
-                vy: (Math.random() - 0.5) * 1.5,
-                size: Math.random() * 2 + 1
-            });
+        for(let i = 0; i < 35; i++) {
+            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 1.2, vy: (Math.random() - 0.5) * 1.2, size: Math.random() * 2 + 1 });
         }
-
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00FF66';
-            ctx.strokeStyle = 'rgba(0, 255, 102, 0.15)';
-
+            ctx.fillStyle = '#00FF66'; ctx.strokeStyle = 'rgba(0, 255, 102, 0.12)';
             particles.forEach((p, index) => {
-                p.x += p.vx;
-                p.y += p.vy;
+                p.x += p.vx; p.y += p.vy;
                 if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
                 if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
                 for(let j = index + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if(dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
+                    const dist = Math.hypot(p.x - particles[j].x, p.y - particles[j].y);
+                    if(dist < 120) { ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); }
                 }
             });
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
 
-        // 5. Interactive Ionization Track Simulator Canvas
-        const simCanvas = document.getElementById('sim-canvas');
-        const simCtx = simCanvas.getContext('2d');
-
-        function runSimulation() {
-            simCanvas.width = simCanvas.clientWidth;
-            simCanvas.height = simCanvas.clientHeight;
-            simCtx.clearRect(0, 0, simCanvas.width, simCanvas.height);
-
-            const particleType = document.getElementById('sim-particle').value;
-            let clusters = 10;
-            let color = '#00F0FF';
-
-            if(particleType === 'proton') { clusters = 8; color = '#00F0FF'; document.getElementById('sim-ssb').innerText = '6'; document.getElementById('sim-dsb').innerText = '1'; }
-            if(particleType === 'alpha') { clusters = 25; color = '#00FF66'; document.getElementById('sim-ssb').innerText = '18'; document.getElementById('sim-dsb').innerText = '4'; }
-            if(particleType === 'ion') { clusters = 45; color = '#39FF14'; document.getElementById('sim-ssb').innerText = '32'; document.getElementById('sim-dsb').innerText = '12'; }
-
-            // Draw DNA Strand Backbone
-            simCtx.strokeStyle = 'rgba(255,255,255,0.2)';
-            simCtx.lineWidth = 3;
-            simCtx.beginPath();
-            for(let x = 0; x < simCanvas.width; x += 10) {
-                let y = simCanvas.height/2 + Math.sin(x/20) * 30;
-                if(x===0) simCtx.moveTo(x,y); else simCtx.lineTo(x,y);
-            }
-            simCtx.stroke();
-
-            // Draw Particle Track Ray
-            simCtx.strokeStyle = color;
-            simCtx.lineWidth = 4;
-            simCtx.shadowBlur = 15;
-            simCtx.shadowColor = color;
-            simCtx.beginPath();
-            simCtx.moveTo(0, simCanvas.height/2);
-            simCtx.lineTo(simCanvas.width, simCanvas.height/2);
-            simCtx.stroke();
-
-            // Draw Ionization Energy Clusters
-            for(let i = 0; i < clusters; i++) {
-                let cx = Math.random() * simCanvas.width;
-                let cy = simCanvas.height/2 + (Math.random() - 0.5) * 40;
-                simCtx.fillStyle = '#ffffff';
-                simCtx.beginPath();
-                simCtx.arc(cx, cy, Math.random() * 4 + 2, 0, Math.PI * 2);
-                simCtx.fill();
-            }
-        }
-        runSimulation();
-
         // 6. Floating Mascot Quotes
         const monytQuotes = [
-            "Знаешь ли ты? Geant4-DNA может моделировать физические процессы на нанометровом масштабе ДНК!",
+            "Geant4-DNA позволяет моделировать процессы ионизации на нанометровом масштабе ДНК!",
             "«Дорогу осилит идущий» — главное кредо Матвея!",
-            "У нас на Stepik есть отличный курс «Введение в физику частиц». Заходи поучиться!",
-            "Тяжелые ионы (He, Li, C, Ne) производят наиболее плотные ионизационные треки!",
-            "Я Монти! Мои жабры сделаны из двойной спирали ДНК 🧬"
+            "У нас на Stepik доступен онлайн-курс «Введение в физику частиц»!",
+            "Тяжелые ионы (Ne, C) создают наиболее плотные кластеры разрывов ДНК."
         ];
         let quoteIndex = 0;
         function talkMonty() {
             const bubble = document.getElementById('monty-bubble');
-            const text = document.getElementById('monty-text');
-            text.innerText = monytQuotes[quoteIndex];
+            document.getElementById('monty-text').innerText = monytQuotes[quoteIndex];
             quoteIndex = (quoteIndex + 1) % monytQuotes.length;
             bubble.classList.remove('opacity-0');
             setTimeout(() => { bubble.classList.add('opacity-0'); }, 6000);
+        }
+    </script>
+
+    <!-- 7. THREE.JS OPHTHALMIC SIMULATION MODULE (Fixed 2-Way Slider Sync!) -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { TransformControls } from 'three/addons/controls/TransformControls.js';
+
+        const container = document.getElementById('three-container');
+        if (container) {
+            const EYE_SCALE = { x: 1.2, y: 1.2, z: 1.0 };
+            const uniforms = {
+                uClip: { value: new THREE.Vector3(0.3, 0.3, 0.3) },
+                uBeamMatrixInv: { value: new THREE.Matrix4() },
+                uBeamParams: { value: new THREE.Vector3(1.5, 1.1, 0.02) },
+                uTumorParams: { value: new THREE.Vector4(0.4, 0.2, -0.3, 0.2) }
+            };
+
+            const beamShaderLogic = `
+                uniform mat4 uBeamMatrixInv;
+                uniform vec3 uBeamParams;
+                uniform vec4 uTumorParams;
+
+                vec3 jet(float t) {
+                    return clamp(vec3(1.5 - abs(4.0*t - 3.0), 1.5 - abs(4.0*t - 2.0), 1.5 - abs(4.0*t - 1.0)), 0.0, 1.0);
+                }
+
+                void mainImage(out vec4 fragColor, in vec3 vPos) {
+                    vec4 localPos = uBeamMatrixInv * vec4(vPos, 1.0);
+                    float distLateral = length(localPos.xy);
+                    float distDepth = -localPos.z;
+
+                    float dose = 0.0;
+                    if (distDepth > 0.0) {
+                        float lateral = exp(-(distLateral * distLateral) / uBeamParams.z);
+                        float bragg = 0.3 + uBeamParams.x * exp(-pow(distDepth - uBeamParams.y, 2.0) / 0.01);
+                        if (distDepth > uBeamParams.y + 0.1) bragg *= exp(-(distDepth - uBeamParams.y - 0.1) * 15.0);
+                        dose = clamp(lateral * bragg, 0.0, 2.0);
+                    }
+
+                    float distToTumor = length(vPos - uTumorParams.xyz);
+                    bool inTumor = distToTumor < uTumorParams.w;
+
+                    vec3 baseColor = vec3(0.08, 0.08, 0.09);
+                    vec3 finalColor;
+
+                    if (inTumor) {
+                        vec3 tumorColor = vec3(0.02, 0.02, 0.03);
+                        vec3 purpleHit = vec3(0.6, 0.1, 1.0) * (dose + 0.3);
+                        finalColor = mix(tumorColor, purpleHit, clamp(dose * 2.5, 0.0, 1.0));
+                    } else {
+                        vec3 doseColor = jet(dose * 0.8);
+                        finalColor = mix(baseColor, doseColor, clamp(dose * 5.0, 0.0, 1.0));
+                    }
+
+                    fragColor = vec4(finalColor, 1.0);
+                }
+            `;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setClearColor(0x020202);
+            container.appendChild(renderer.domElement);
+
+            const orbit = new OrbitControls(camera, renderer.domElement);
+            const eyeGroup = new THREE.Group();
+            scene.add(eyeGroup);
+
+            const scleraMat = new THREE.ShaderMaterial({
+                uniforms: { uClip: uniforms.uClip },
+                vertexShader: `varying vec3 vPos; void main() { vPos = (modelMatrix * vec4(position, 1.0)).xyz; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+                fragmentShader: `varying vec3 vPos; uniform vec3 uClip; void main() { if (vPos.x > uClip.x && vPos.y > uClip.y && vPos.z > uClip.z) discard; gl_FragColor = vec4(0.95, 0.95, 0.98, 1.0); }`
+            });
+            eyeGroup.add(new THREE.Mesh(new THREE.SphereGeometry(1, 128, 128).scale(EYE_SCALE.x, EYE_SCALE.y, EYE_SCALE.z), scleraMat));
+
+            const iris = new THREE.Mesh(new THREE.CircleGeometry(0.4, 64), new THREE.MeshStandardMaterial({ color: 0x00ff66 }));
+            iris.position.z = 1.01; eyeGroup.add(iris);
+
+            const cannon = new THREE.Group();
+            const cMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.07, 0.25, 16), new THREE.MeshStandardMaterial({ color: 0x00f0ff }));
+            cMesh.rotation.x = Math.PI/2; cannon.add(cMesh);
+            cannon.position.set(0, 0, 1.4); scene.add(cannon);
+
+            const cannonCtrl = new TransformControls(camera, renderer.domElement);
+            cannonCtrl.attach(cannon); cannonCtrl.size = 0.5; scene.add(cannonCtrl);
+            cannonCtrl.addEventListener('dragging-changed', (e) => orbit.enabled = !e.value);
+
+            const sliceMat = new THREE.ShaderMaterial({
+                uniforms,
+                vertexShader: `varying vec3 vPos; void main() { vPos = (modelMatrix * vec4(position, 1.0)).xyz; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+                fragmentShader: `varying vec3 vPos; ${beamShaderLogic} void main() { if (pow(vPos.x/1.2, 2.0) + pow(vPos.y/1.2, 2.0) + pow(vPos.z/1.0, 2.0) > 1.0) discard; mainImage(gl_FragColor, vPos); }`,
+                side: THREE.DoubleSide
+            });
+
+            const createSlice = (axis) => {
+                const slice = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 2.5), sliceMat);
+                if (axis === 'x') slice.rotation.y = Math.PI/2;
+                if (axis === 'y') slice.rotation.x = Math.PI/2;
+                eyeGroup.add(slice);
+
+                const tc = new TransformControls(camera, renderer.domElement);
+                tc.attach(slice); tc.setMode('translate'); tc.size = 0.5;
+                tc.showX = (axis === 'x'); tc.showY = (axis === 'y'); tc.showZ = (axis === 'z');
+
+                tc.addEventListener('dragging-changed', (e) => orbit.enabled = !e.value);
+                tc.addEventListener('objectChange', () => {
+                    if (axis === 'x') { slice.position.y = slice.position.z = 0; uniforms.uClip.value.x = slice.position.x; ui.sx.value = slice.position.x; }
+                    if (axis === 'y') { slice.position.x = slice.position.z = 0; uniforms.uClip.value.y = slice.position.y; ui.sy.value = slice.position.y; }
+                    if (axis === 'z') { slice.position.x = slice.position.y = 0; uniforms.uClip.value.z = slice.position.z; ui.sz.value = slice.position.z; }
+                });
+                scene.add(tc);
+                return slice;
+            };
+
+            const sX = createSlice('x'); sX.position.x = 0.3;
+            const sY = createSlice('y'); sY.position.y = 0.3;
+            const sZ = createSlice('z'); sZ.position.z = 0.3;
+
+            scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+            camera.position.set(2.8, 1.8, 3.5); orbit.update();
+
+            const ui = {
+                rng: document.getElementById('beamRange'), pwr: document.getElementById('beamPower'),
+                tx: document.getElementById('tmX'), ty: document.getElementById('tmY'), tz: document.getElementById('tmZ'), ts: document.getElementById('tmSize'),
+                sx: document.getElementById('posX'), sy: document.getElementById('posY'), sz: document.getElementById('posZ')
+            };
+
+            // FIX: 2-Way Slider Data Binding!
+            ui.sx.addEventListener('input', (e) => { sX.position.x = parseFloat(e.target.value); uniforms.uClip.value.x = sX.position.x; });
+            ui.sy.addEventListener('input', (e) => { sY.position.y = parseFloat(e.target.value); uniforms.uClip.value.y = sY.position.y; });
+            ui.sz.addEventListener('input', (e) => { sZ.position.z = parseFloat(e.target.value); uniforms.uClip.value.z = sZ.position.z; });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                uniforms.uBeamParams.value.set(parseFloat(ui.pwr.value), parseFloat(ui.rng.value), 0.02);
+                uniforms.uTumorParams.value.set(parseFloat(ui.tx.value), parseFloat(ui.ty.value), parseFloat(ui.tz.value), parseFloat(ui.ts.value));
+                document.getElementById('lbl-rng').innerText = ui.rng.value;
+                document.getElementById('lbl-pwr').innerText = ui.pwr.value;
+
+                cannon.updateMatrixWorld();
+                uniforms.uBeamMatrixInv.value.copy(cannon.matrixWorld).invert();
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
         }
     </script>
 </body>
